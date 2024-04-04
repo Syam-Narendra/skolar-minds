@@ -1,36 +1,51 @@
-# Welcome to Remix + Vite!
+# School Project: Academic Management System
 
-📖 See the [Remix docs](https://remix.run/docs) and the [Remix Vite docs](https://remix.run/docs/en/main/future/vite) for details on supported features.
+## Overview
 
-## Development
+This school project aims to provide a comprehensive platform for managing various aspects of student academic activities. The project encompasses three main features:
 
-Run the Vite dev server:
+1. **Students Attendance Tracker:**
 
-```shellscript
-npm run dev
-```
+   - Record attendance for each class session.
+   - Mark students as present, absent, or tardy.
+   - Securely store attendance data for analysis.
 
-## Deployment
+2. **Student Marks Tracker:**
 
-First, build your app for production:
+   - Record and manage students' academic performance.
+   - Enter marks for assignments, quizzes, tests, etc.
+   - Calculate and display students' grades.
 
-```sh
-npm run build
-```
+3. **Online Assignments:**
+   - Distribute and submit assignments digitally.
+   - Create and upload assignments for students.
+   - Review and grade assignments online.
 
-Then run the app in production mode:
+## Key Features
 
-```sh
-npm start
-```
+- **User Authentication:** Secure login functionality for teachers and students.
+- **Intuitive Interface:** User-friendly design for easy navigation.
+- **Real-time Updates:** Immediate access to attendance, marks, and assignments.
+- **Data Visualization:** Visual representations of attendance trends and student performance.
+- **Notification System:** Timely notifications for upcoming assignments and deadlines.
+- **Customization Options:** Tailor settings according to classroom requirements.
 
-Now you'll need to pick a host to deploy it to.
+## Getting Started
 
-### DIY
+1. **Registration:** Teachers and students must register for an account.
+2. **Login:** Log in using credentials to access features.
+3. **Navigation:** Explore attendance tracking, marks management, and online assignments.
+4. **Usage:** Record attendance, enter marks, distribute assignments, and track student progress.
+5. **Feedback:** Provide feedback on usability and suggest improvements.
 
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
+## Contributors
 
-Make sure to deploy the output of `npm run build`
+- [Syam Narendra](mailto:your-email@example.com)
 
-- `build/server`
-- `build/client`
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact Information
+
+For inquiries or assistance, please contact [Your Email](mailto:your-email@example.com).
