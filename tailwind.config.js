@@ -5,8 +5,11 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'custom': ['SegoeUI','Lato','Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+      }
+    },
   },
   plugins: [],
 }
-
