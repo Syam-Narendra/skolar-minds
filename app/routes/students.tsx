@@ -1,17 +1,16 @@
-import { Button } from "~/components/ui/button";
+import { Outlet } from "@remix-run/react";
+import { MdPeople } from "react-icons/md";
+import { GiTeacher } from "react-icons/gi";
+import { FcStatistics } from "react-icons/fc";
+
 import {
   TableHead,
   TableRow,
   TableHeader,
-  TableCell,
   TableBody,
   Table,
 } from "~/components/ui/table";
-import {
-  PopoverTrigger,
-  PopoverContent,
-  Popover,
-} from "~/components/ui/popover";
+import { TableItem } from "~/customComponents/tableItem";
 
 export default function Component() {
   return (
@@ -21,7 +20,7 @@ export default function Component() {
           <img
             alt="Company Logo"
             height="30"
-            src="/placeholder.svg"
+            src="../../education.png"
             style={{
               aspectRatio: "30/30",
               objectFit: "cover",
@@ -36,16 +35,16 @@ export default function Component() {
             <span className="text-sm font-medium">Home</span>
           </button>
           <button className="w-full flex items-center space-x-2 bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-800">
-            <WalletIcon className="w-4 h-4" />
-            <span className="text-sm font-medium">Transactions</span>
+            <MdPeople className="w-4 h-4" />
+            <span className="text-sm font-medium">Students</span>
           </button>
           <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-            <UsersIcon className="w-4 h-4" />
-            <span className="text-sm font-medium">Accounts</span>
+            <GiTeacher className="w-4 h-4" />
+            <span className="text-sm font-medium">Staff</span>
           </button>
           <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-            <TicketIcon className="w-4 h-4" />
-            <span className="text-sm font-medium">Tax</span>
+            <FcStatistics className="w-4 h-4" />
+            <span className="text-sm font-medium">Statistics</span>
           </button>
         </nav>
       </aside>
@@ -54,379 +53,23 @@ export default function Component() {
           <h1 className="text-lg font-medium">Students</h1>
         </div>
         <Table className="text-left min-w-full">
-          <TableHeader>
+          <TableHeader className="text-gray-400 font-mono">
             <TableRow>
-              <TableHead>Date</TableHead>
-              <TableHead>Description</TableHead>
+              <TableHead>Student Name</TableHead>
+              <TableHead>Father Name</TableHead>
               <TableHead>Class & Sec</TableHead>
               <TableHead className="text-right">Remaining Fee</TableHead>
               <TableHead />
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell>Mar 12</TableCell>
-              <TableCell>WeWork</TableCell>
-              <TableCell>
-                <span className="px-2 py-1 bg-red-200 text-red-800 rounded-md">
-                  <TagIcon className="w-4 h-4 inline-block mr-1" />
-                  Office
-                </span>
-              </TableCell>
-              <TableCell className="text-right">$175.00</TableCell>
-              <TableCell>
-                <Popover>
-                  <PopoverTrigger>
-                    <Button
-                      className="px-2 py-1 bg-transparent text-black hover:bg-gray-200 active:bg-gray-300 rounded"
-                      type="button"
-                    >
-                      <MoreVerticalIcon className="w-4 h-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-40">
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Edit</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <ShareIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Share</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <DeleteIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Delete</span>
-                    </button>
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Mar 13</TableCell>
-              <TableCell>IKEA</TableCell>
-              <TableCell>
-                <span className="px-2 py-1 bg-blue-200 text-blue-800 rounded-md">
-                  <TagIcon className="w-4 h-4 inline-block mr-1" />
-                  Home
-                </span>
-              </TableCell>
-              <TableCell>$450.00</TableCell>
-              <TableCell>
-                <Popover>
-                  <PopoverTrigger>
-                    <Button
-                      className="px-2 py-1 bg-transparent text-black hover:bg-gray-200 active:bg-gray-300 rounded"
-                      type="button"
-                    >
-                      <MoreVerticalIcon className="w-4 h-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-40">
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Edit</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <ShareIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Share</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <DeleteIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Delete</span>
-                    </button>
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Mar 14</TableCell>
-              <TableCell>Home Depot</TableCell>
-              <TableCell>
-                <span className="px-2 py-1 bg-blue-200 text-blue-800 rounded-md">
-                  <TagIcon className="w-4 h-4 inline-block mr-1" />
-                  Home
-                </span>
-              </TableCell>
-              <TableCell>$200.00</TableCell>
-              <TableCell>
-                <Popover>
-                  <PopoverTrigger>
-                    <Button
-                      className="px-2 py-1 bg-transparent text-black hover:bg-gray-200 active:bg-gray-300 rounded"
-                      type="button"
-                    >
-                      <MoreVerticalIcon className="w-4 h-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-40">
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Edit</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <ShareIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Share</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <DeleteIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Delete</span>
-                    </button>
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Mar 15</TableCell>
-              <TableCell>Burger King</TableCell>
-              <TableCell>
-                <span className="px-2 py-1 bg-green-200 text-green-800 rounded-md">
-                  <TagIcon className="w-4 h-4 inline-block mr-1" />
-                  Food
-                </span>
-              </TableCell>
-              <TableCell>$15.00</TableCell>
-              <TableCell>
-                <Popover>
-                  <PopoverTrigger>
-                    <Button
-                      className="px-2 py-1 bg-transparent text-black hover:bg-gray-200 active:bg-gray-300 rounded"
-                      type="button"
-                    >
-                      <MoreVerticalIcon className="w-4 h-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-40">
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Edit</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <ShareIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Share</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <DeleteIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Delete</span>
-                    </button>
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Mar 16</TableCell>
-              <TableCell>WeWork</TableCell>
-              <TableCell>
-                <span className="px-2 py-1 bg-red-200 text-red-800 rounded-md">
-                  <TagIcon className="w-4 h-4 inline-block mr-1" />
-                  Office
-                </span>
-              </TableCell>
-              <TableCell>$250.00</TableCell>
-              <TableCell>
-                <Popover>
-                  <PopoverTrigger>
-                    <Button
-                      className="px-2 py-1 bg-transparent text-black hover:bg-gray-200 active:bg-gray-300 rounded"
-                      type="button"
-                    >
-                      <MoreVerticalIcon className="w-4 h-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-40">
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Edit</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <ShareIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Share</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <DeleteIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Delete</span>
-                    </button>
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Mar 17</TableCell>
-              <TableCell>IKEA</TableCell>
-              <TableCell>
-                <span className="px-2 py-1 bg-blue-200 text-blue-800 rounded-md">
-                  <TagIcon className="w-4 h-4 inline-block mr-1" />
-                  Home
-                </span>
-              </TableCell>
-              <TableCell>$350.00</TableCell>
-              <TableCell>
-                <Popover>
-                  <PopoverTrigger>
-                    <Button
-                      className="px-2 py-1 bg-transparent text-black hover:bg-gray-200 active:bg-gray-300 rounded"
-                      type="button"
-                    >
-                      <MoreVerticalIcon className="w-4 h-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-40">
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Edit</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <ShareIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Share</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <DeleteIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Delete</span>
-                    </button>
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Mar 18</TableCell>
-              <TableCell>Home Depot</TableCell>
-              <TableCell>
-                <span className="px-2 py-1 bg-blue-200 text-blue-800 rounded-md">
-                  <TagIcon className="w-4 h-4 inline-block mr-1" />
-                  Home
-                </span>
-              </TableCell>
-              <TableCell>$100.00</TableCell>
-              <TableCell>
-                <Popover>
-                  <PopoverTrigger>
-                    <Button
-                      className="px-2 py-1 bg-transparent text-black hover:bg-gray-200 active:bg-gray-300 rounded"
-                      type="button"
-                    >
-                      <MoreVerticalIcon className="w-4 h-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-40">
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Edit</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <ShareIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Share</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <DeleteIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Delete</span>
-                    </button>
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Mar 19</TableCell>
-              <TableCell>Burger King</TableCell>
-              <TableCell>
-                <span className="px-2 py-1 bg-green-200 text-green-800 rounded-md">
-                  <TagIcon className="w-4 h-4 inline-block mr-1" />
-                  Food
-                </span>
-              </TableCell>
-              <TableCell>$20.00</TableCell>
-              <TableCell>
-                <Popover>
-                  <PopoverTrigger>
-                    <Button
-                      className="px-2 py-1 bg-transparent text-black hover:bg-gray-200 active:bg-gray-300 rounded"
-                      type="button"
-                    >
-                      <MoreVerticalIcon className="w-4 h-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-40">
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <FileEditIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Edit</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <ShareIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Share</span>
-                    </button>
-                    <button className="w-full flex items-center space-x-2 hover:bg-gray-200 active:bg-gray-300 py-2 px-2 rounded-lg text-gray-500">
-                      <DeleteIcon className="w-4 h-4" />
-                      <span className="text-sm font-medium">Delete</span>
-                    </button>
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
-            </TableRow>
+            <TableItem />
+            <TableItem />
+            <TableItem />
           </TableBody>
         </Table>
       </main>
     </div>
-  );
-}
-
-function DeleteIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M20 5H9l-7 7 7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z" />
-      <line x1="18" x2="12" y1="9" y2="15" />
-      <line x1="12" x2="18" y1="9" y2="15" />
-    </svg>
-  );
-}
-
-function DownloadIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="7 10 12 15 17 10" />
-      <line x1="12" x2="12" y1="15" y2="3" />
-    </svg>
-  );
-}
-
-function FileEditIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 13.5V4a2 2 0 0 1 2-2h8.5L20 7.5V20a2 2 0 0 1-2 2h-5.5" />
-      <polyline points="14 2 14 8 20 8" />
-      <path d="M10.42 12.61a2.1 2.1 0 1 1 2.97 2.97L7.95 21 4 22l.99-3.95 5.43-5.44Z" />
-    </svg>
   );
 }
 
@@ -446,68 +89,6 @@ function HomeIcon(props: any) {
     >
       <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
       <polyline points="9 22 9 12 15 12 15 22" />
-    </svg>
-  );
-}
-
-function MoreVerticalIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="1" />
-      <circle cx="12" cy="5" r="1" />
-      <circle cx="12" cy="19" r="1" />
-    </svg>
-  );
-}
-
-function ShareIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-      <polyline points="16 6 12 2 8 6" />
-      <line x1="12" x2="12" y1="2" y2="15" />
-    </svg>
-  );
-}
-
-function TagIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z" />
-      <path d="M7 7h.01" />
     </svg>
   );
 }
