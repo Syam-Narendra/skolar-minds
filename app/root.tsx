@@ -32,7 +32,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <>
-      <h1>hdvgh</h1>
       <Outlet />
     </>
   );
