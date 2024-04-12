@@ -1,6 +1,6 @@
 const Stats = () => {
   return (
-    <div className="flex flex-col  items-center justify-center w-full h-screen bg-[#E6FCFF]">
+    <div className="flex flex-col text-center items-center justify-center w-full h-screen bg-[#E6FCFF]">
       <div className="text-4xl font-bold text-[#008080] my-10">
         School Statistcs
       </div>
