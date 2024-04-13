@@ -15,7 +15,7 @@ export default function Dashboard() {
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <div className="flex">
-        <aside className="sticky top-0 h-screen w-56 bg-gray-100 text-gray-800 p-4">
+        <aside className=" left-0 top-0 h-screen w-56 bg-gray-100 text-gray-800 p-4">
           <div className="flex items-center mb-4 space-x-1">
             <img
               alt="Company Logo"
@@ -60,6 +60,7 @@ export default function Dashboard() {
             </Link>
           </nav>
         </aside>
+
         <Outlet />
       </div>
     </div>
