@@ -9,6 +9,9 @@ export default {
     extend: {
       fontFamily: {
         'custom': ['SegoeUI','Lato','Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+      },
+      backgroundColor:{
+        '272727': ' #272727',
       }
     },
   },
