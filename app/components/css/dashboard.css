@@ -1,0 +1,12 @@
+@font-face {
+    font-family: "Zona Pro Bold";
+    src: url("https://candyfonts.com/wp-data/2019/03/05/29744/ZonaPro-Bold.otf") format("woff"),
+         url("https://candyfonts.com/wp-data/2019/03/05/29744/ZonaPro-Bold.otf") format("opentype"),
+         url("https://candyfonts.com/wp-data/2019/03/05/29744/ZonaPro-Bold.otf") format("truetype");
+}
+
+
+.zona-pro-font{
+    font-family: "Zona Pro Bold", sans-serif;
+    font-weight: 600; 
+}
