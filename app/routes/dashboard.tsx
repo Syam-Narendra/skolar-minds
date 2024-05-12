@@ -63,8 +63,8 @@ const DashboardNavItems = [
 export default function Dashboard() {
   const activePath = useLocation().pathname;
   return (
-    <div className="max-h-screen">
-      <div className="flex justify-end items-center bg-stone-950">
+    <div className="max-h-screen ">
+      <div className="flex justify-end w-full items-center bg-stone-950">
         <SettingsIcon />
         <img
           src="https://i.ibb.co/YcqQrJQ/Png-Item-4042710.png"
