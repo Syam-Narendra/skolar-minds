@@ -40,11 +40,7 @@ This school project aims to provide a comprehensive platform for managing variou
 
 ## Contributors
 
-- [Syam Narendra](mailto:your-email@example.com)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- [Syam Narendra](mailto:syamnarendra85@gmail.com)
 
 ## Contact Information
 
