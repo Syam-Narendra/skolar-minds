@@ -63,7 +63,7 @@ const DashboardNavItems = [
 export default function Dashboard() {
   const activePath = useLocation().pathname;
   return (
-    <div className="max-h-screen ">
+    <div className="min-h-screen ">
       <div className="flex justify-end w-full items-center bg-stone-950">
         <SettingsIcon />
         <img
@@ -86,7 +86,7 @@ export default function Dashboard() {
               }}
               width="30"
             />
-            <h1 className="text-lg font-medium zona-pro-font">Finstat</h1>
+            <h1 className="text-lg font-medium">School Name</h1>
           </div>
           <nav className="space-y-2">
             {DashboardNavItems.map((item, index) => {
@@ -110,7 +110,7 @@ export default function Dashboard() {
           </div>
         </aside>
 
-        <div className="ml-52 w-full h-lvh p-4 staff-dashboard bg-black">
+        <div className="ml-52 w-full h-fit min-h-screen p-4 staff-dashboard bg-black">
           <Outlet />
         </div>
       </div>

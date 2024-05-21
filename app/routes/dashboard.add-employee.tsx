@@ -1,25 +1,24 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
 
 type Inputs = {
   employeeName: string;
   mobileNumber: number;
   employeeType: string;
+  employeeRole: string;
+  specifyEmployeeType: string;
 };
 
 const formTypes = {
   EmployeeDetails: "EmployeeDetailsForm",
   PersonalDetails: "PersonalDetailsForm",
   CommunicationDetails: "CommunicationDetailsForm",
+};
+
+const employeeSpecializationTypes = {
+  TeachingStaff: "Teaching Staff",
+  NonTeachingStaff: "Non Teaching Staff",
+  Management: "Management",
 };
 
 export default function App() {
@@ -29,16 +28,70 @@ export default function App() {
     const {
       register,
       handleSubmit,
+      watch,
       formState: { errors },
     } = useForm<Inputs>();
-    const onSubmit: SubmitHandler<Inputs> = () =>
+    const watchedValues = watch();
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
+      console.log(data);
       setActiveForm(formTypes.PersonalDetails);
+    };
+
+    const EmployeeSpecializationForm = () => {
+      const managementStaff = [
+        "Principal",
+        "Vice Principal",
+        "Operations Manager",
+        "Activities Director",
+        "Accountant",
+        "Stationary Manager",
+      ];
+
+      const nonTeachingStaff = [
+        "Food Service Staff",
+        "Support Staff",
+        "Custodial Staff",
+        "Security Personnel ",
+        "Bus Drivers",
+        "Bus Aides",
+        "Other Technicians",
+      ];
+
+      switch (watchedValues.employeeRole) {
+        case employeeSpecializationTypes.TeachingStaff:
+          return (
+            <option value="Teaching" className="text-white bg-black">
+              Teaching
+            </option>
+          );
+        case employeeSpecializationTypes.Management:
+          return (
+            <>
+              {managementStaff.map((each) => (
+                <option key={each} className="text-white bg-black">
+                  {each}
+                </option>
+              ))}
+            </>
+          );
+        case employeeSpecializationTypes.NonTeachingStaff:
+          return (
+            <>
+              {nonTeachingStaff.map((each) => (
+                <option key={each} className="bg-black text-white">
+                  {each}
+                </option>
+              ))}
+            </>
+          );
+      }
+    };
 
     return (
       <div>
-        <form className="space-y-4 pl-5" onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-wrap -mx-2">
-            <div className="w-full md:w-1/3 px-2 ">
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex space-y-3 flex-wrap">
+            <div className="w-full mt-3 md:w-1/3 px-2">
               <input
                 className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
                 placeholder="Name"
@@ -59,25 +112,78 @@ export default function App() {
                 <span className="text-red-600">* Invalid Mobile Number</span>
               )}
             </div>
-            <div className="w-full md:w-1/3 px-2 bg-white ">
-              <Select>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Select a fruit" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Fruits</SelectLabel>
-                    <SelectItem value="apple">Apple</SelectItem>
-                    <SelectItem value="banana">Banana</SelectItem>
-                    <SelectItem value="blueberry">Blueberry</SelectItem>
-                    <SelectItem value="grapes">Grapes</SelectItem>
-                    <SelectItem value="pineapple">Pineapple</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+            <div className="w-full md:w-1/3 px-2">
+              <select
+                id="employeeType"
+                {...register("employeeType", { required: true })}
+                className="w-full bg-transparent border border-slate-600 rounded-md p-2 text-white focus:outline-none"
+              >
+                <option hidden value="" className="bg-black text-slate-400">
+                  Employee Type
+                </option>
+                <option value="Part Time" className="bg-black">
+                  Part Time
+                </option>
+                <option value="Full Time" className="bg-black">
+                  Full Time
+                </option>
+              </select>
+              {errors.employeeType && (
+                <span className="text-red-600">
+                  * Please select an Employee Type
+                </span>
+              )}
+            </div>
+
+            <div className="w-full md:w-1/3 px-2">
+              <select
+                id="employeeRole"
+                {...register("employeeRole", { required: true })}
+                className="w-full bg-transparent border border-slate-600 rounded-md p-2 text-white focus:outline-none"
+              >
+                <option hidden value="" className="bg-black text-slate-400">
+                  Employee Role
+                </option>
+
+                {Object.values(employeeSpecializationTypes).map((type) => (
+                  <option
+                    key={type}
+                    value={type}
+                    className="bg-black text-white"
+                  >
+                    {type}
+                  </option>
+                ))}
+              </select>
+              {errors.employeeRole && (
+                <span className="text-red-600">
+                  * Please select an Employee Role
+                </span>
+              )}
+            </div>
+            <div className="w-full md:w-1/3 px-2">
+              <select
+                {...register("specifyEmployeeType", { required: true })}
+                className="w-full bg-transparent border border-slate-600 rounded-md p-2 text-white focus:outline-none"
+              >
+                <option hidden value="" className="bg-black text-slate-400">
+                  Specify Employee Role
+                </option>
+                <EmployeeSpecializationForm />
+              </select>
+              {errors.specifyEmployeeType && (
+                <span className="text-red-600">
+                  * Please Specify Employee Type
+                </span>
+              )}
+            </div>
+            <div className="w-full flex bg-white md:w-1/3 px-2">
+              <h2 className="text-black">Choose image</h2>
+              <input type="file"></input>
             </div>
           </div>
-          <div>
+
+          <div className="px-2">
             <input
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               type="submit"
@@ -106,7 +212,7 @@ export default function App() {
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row m-5 p-2 rounded-lg bg-272727">
+      <div className="flex flex-col md:flex-row m-5 p-2 bg-stone-950 rounded-lg bg-272727">
         <button
           onClick={() => setActiveForm(formTypes.EmployeeDetails)}
           className={`${
@@ -133,7 +239,11 @@ export default function App() {
           Communicaton Details
         </button>
       </div>
-      <div>{renderActiveForm()}</div>
+
+      <div className="space-y-4 pl-5">
+        <h1 className="text-white px-2">Add New Employee</h1>
+        {renderActiveForm()}
+      </div>
     </div>
   );
 }
