@@ -91,12 +91,12 @@ export default function Dashboard() {
           <nav className="space-y-2">
             {DashboardNavItems.map((item, index) => {
               const activeBg =
-                activePath === item.to ? "bg-272727" : "bg-black";
+                activePath === item.to ? "bg-[#272727]" : "bg-black";
               return (
                 <Link
                   key={index}
                   to={item.to}
-                  className={`${activeBg} w-full flex items-center space-x-2 nav-item py-2 px-2 rounded-lg text-white`}
+                  className={`${activeBg} hover:underline w-full flex items-center space-x-2 nav-item py-2 px-2 rounded-[0.5rem] text-white`}
                 >
                   {item.icon}
                   <span className="text-sm font-semibold">{item.label}</span>

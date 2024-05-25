@@ -7,8 +7,7 @@
     "config": "tailwind.config.js",
     "css": "app/tailwind.css",
     "baseColor": "slate",
-    "cssVariables": false,
-    "prefix": "yes"
+    "cssVariables": true
   },
   "aliases": {
     "components": "~/components",

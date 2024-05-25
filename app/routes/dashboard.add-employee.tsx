@@ -1,5 +1,25 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
+
+import { cn } from "~/lib/utils";
+import { Button } from "~/components/ui/button";
+import { Calendar } from "~/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
 
 type Inputs = {
   employeeName: string;
@@ -30,8 +50,10 @@ export default function App() {
       handleSubmit,
       watch,
       formState: { errors },
+      setValue,
     } = useForm<Inputs>();
     const watchedValues = watch();
+    const [date, setDate] = useState<Date>();
     const onSubmit: SubmitHandler<Inputs> = (data) => {
       console.log(data);
       setActiveForm(formTypes.PersonalDetails);
@@ -59,18 +81,18 @@ export default function App() {
 
       switch (watchedValues.employeeRole) {
         case employeeSpecializationTypes.TeachingStaff:
-          return (
-            <option value="Teaching" className="text-white bg-black">
-              Teaching
-            </option>
-          );
+          return <SelectItem value="Teaching">Teaching</SelectItem>;
         case employeeSpecializationTypes.Management:
           return (
             <>
               {managementStaff.map((each) => (
-                <option key={each} className="text-white bg-black">
+                <SelectItem
+                  key={each}
+                  value={each}
+                  className="text-white bg-black"
+                >
                   {each}
-                </option>
+                </SelectItem>
               ))}
             </>
           );
@@ -78,12 +100,18 @@ export default function App() {
           return (
             <>
               {nonTeachingStaff.map((each) => (
-                <option key={each} className="bg-black text-white">
+                <SelectItem
+                  key={each}
+                  value={each}
+                  className="bg-black text-white"
+                >
                   {each}
-                </option>
+                </SelectItem>
               ))}
             </>
           );
+        default:
+          return null; // Add a default case to handle other cases
       }
     };
 
@@ -113,21 +141,22 @@ export default function App() {
               )}
             </div>
             <div className="w-full md:w-1/3 px-2">
-              <select
-                id="employeeType"
-                {...register("employeeType", { required: true })}
-                className="w-full bg-transparent border border-slate-600 rounded-md p-2 text-white focus:outline-none"
+              <Select
+                onValueChange={(value) => setValue("employeeType", value)}
               >
-                <option hidden value="" className="bg-black text-slate-400">
-                  Employee Type
-                </option>
-                <option value="Part Time" className="bg-black">
-                  Part Time
-                </option>
-                <option value="Full Time" className="bg-black">
-                  Full Time
-                </option>
-              </select>
+                <SelectTrigger className="bg-black text-white border-slate-600 ">
+                  <SelectValue placeholder="Select Employee Type" />
+                </SelectTrigger>
+                <SelectContent
+                  className="bg-black text-white "
+                  {...register("employeeType", { required: true })}
+                >
+                  <SelectGroup>
+                    <SelectItem value="Full Time">Full Time</SelectItem>
+                    <SelectItem value="Part Time">Part Time</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
               {errors.employeeType && (
                 <span className="text-red-600">
                   * Please select an Employee Type
@@ -135,26 +164,27 @@ export default function App() {
               )}
             </div>
 
-            <div className="w-full md:w-1/3 px-2">
-              <select
-                id="employeeRole"
-                {...register("employeeRole", { required: true })}
-                className="w-full bg-transparent border border-slate-600 rounded-md p-2 text-white focus:outline-none"
+            <div className="w-full md:w-1/3 px-2 ">
+              <Select
+                onValueChange={(value) => setValue("employeeRole", value)}
               >
-                <option hidden value="" className="bg-black text-slate-400">
-                  Employee Role
-                </option>
+                <SelectTrigger className="bg-black text-white border-slate-600 ">
+                  <SelectValue placeholder="Select Employee Role" />
+                </SelectTrigger>
+                <SelectContent
+                  {...register("employeeRole", { required: true })}
+                  className="bg-black text-white "
+                >
+                  <SelectGroup>
+                    {Object.values(employeeSpecializationTypes).map((each) => (
+                      <SelectItem key={each} value={each}>
+                        {each}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
 
-                {Object.values(employeeSpecializationTypes).map((type) => (
-                  <option
-                    key={type}
-                    value={type}
-                    className="bg-black text-white"
-                  >
-                    {type}
-                  </option>
-                ))}
-              </select>
               {errors.employeeRole && (
                 <span className="text-red-600">
                   * Please select an Employee Role
@@ -162,24 +192,57 @@ export default function App() {
               )}
             </div>
             <div className="w-full md:w-1/3 px-2">
-              <select
-                {...register("specifyEmployeeType", { required: true })}
-                className="w-full bg-transparent border border-slate-600 rounded-md p-2 text-white focus:outline-none"
+              <Select
+                onValueChange={(value) =>
+                  setValue("specifyEmployeeType", value)
+                }
               >
-                <option hidden value="" className="bg-black text-slate-400">
-                  Specify Employee Role
-                </option>
-                <EmployeeSpecializationForm />
-              </select>
+                <SelectTrigger className="bg-black text-white border-slate-600 ">
+                  <SelectValue placeholder="Select Employee Role" />
+                </SelectTrigger>
+                <SelectContent
+                  {...register("specifyEmployeeType", { required: true })}
+                  className="bg-black text-white "
+                >
+                  <SelectGroup>
+                    <EmployeeSpecializationForm />
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
               {errors.specifyEmployeeType && (
                 <span className="text-red-600">
                   * Please Specify Employee Type
                 </span>
               )}
             </div>
-            <div className="w-full flex bg-white md:w-1/3 px-2">
-              <h2 className="text-black">Choose image</h2>
-              <input type="file"></input>
+            <div className="w-full md:w-1/3 px-2">
+              <Popover>
+                <PopoverTrigger className="bg-black  hover:bg-black" asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4 text-white" />
+                    {date ? (
+                      format(date, "PPP")
+                    ) : (
+                      <span className="text-white">Select Joining Date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-full p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                    className="bg-black text-white"
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
 
@@ -212,12 +275,12 @@ export default function App() {
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row m-5 p-2 bg-stone-950 rounded-lg bg-272727">
+      <div className="flex flex-col md:flex-row m-5 p-2 bg-stone-950 rounded-[0.5rem] bg-272727">
         <button
           onClick={() => setActiveForm(formTypes.EmployeeDetails)}
           className={`${
             activeForm === formTypes.EmployeeDetails && "bg-black text-white"
-          } w-full md:w-1/3  p-2 text-gray-400 font-bold rounded-lg`}
+          } w-full md:w-1/3  p-2 text-gray-400 font-bold rounded-[0.5rem]`}
         >
           Employee Details
         </button>
@@ -225,7 +288,7 @@ export default function App() {
           onClick={() => setActiveForm(formTypes.PersonalDetails)}
           className={`${
             activeForm === formTypes.PersonalDetails && "bg-black text-white"
-          } w-full md:w-1/3 p-2 text-gray-400 font-bold rounded-md`}
+          } w-full md:w-1/3 p-2 text-gray-400 font-bold rounded-[0.5rem]`}
         >
           Personal Details
         </button>
@@ -234,7 +297,7 @@ export default function App() {
           className={`${
             activeForm === formTypes.CommunicationDetails &&
             "bg-black text-white"
-          } w-full md:w-1/3 p-2 text-gray-400 font-bold rounded-md`}
+          } w-full md:w-1/3 p-2 text-gray-400 font-bold rounded-[0.5rem]`}
         >
           Communicaton Details
         </button>
