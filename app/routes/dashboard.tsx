@@ -79,7 +79,7 @@ export default function Dashboard() {
             <img
               alt="Company Logo"
               height="30"
-              src="../../education.png"
+              src="https://i.ibb.co/vh22hY4/education.png"
               style={{
                 aspectRatio: "30/30",
                 objectFit: "cover",
