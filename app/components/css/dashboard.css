@@ -5,14 +5,6 @@
          url("../../../fonts//ZonaPro-Bold.otf") format("truetype");
 }
 
-
-.zona-pro-font{
-    font-family: "Zona Pro Bold", sans-serif;
-    font-weight: 600; 
-}
-
-
 body{
-    font-family: "Zona Pro Bold", sans-serif;
-    font-weight: 600; 
+    font-family: "Zona Pro Bold";
 }
