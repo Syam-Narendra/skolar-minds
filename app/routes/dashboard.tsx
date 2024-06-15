@@ -15,6 +15,7 @@ import {
   LogoutIcon,
   HomeIcon,
 } from "../customComponents/icons";
+import { FaSchool } from "react-icons/fa";
 export const meta: MetaFunction = () => {
   return [
     { title: "Skolar Minds" },
@@ -37,6 +38,11 @@ const DashboardNavItems = [
     to: "/dashboard/staff",
     icon: <GiTeacher className="w-4 h-4" />,
     label: "Staff",
+  },
+  {
+    to: "/dashboard/classes",
+    icon: <FaSchool className="w-4 h-4" />,
+    label: "Classes",
   },
   {
     to: "/dashboard/stats",

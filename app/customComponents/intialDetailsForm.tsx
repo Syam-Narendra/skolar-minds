@@ -9,6 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
@@ -190,6 +192,7 @@ export const IntialDetailsForm = () => {
               <span className="text-red-600">* Please Specify Designation</span>
             )}
           </div>
+
           <div className="w-full md:w-1/3 px-2">
             <Popover>
               <PopoverTrigger className="bg-black  hover:bg-black" asChild>
@@ -229,6 +232,14 @@ export const IntialDetailsForm = () => {
             {errors.salary && (
               <span className="text-red-600">* Enter Salary</span>
             )}
+          </div>
+          <div className="w-full md:w-1/3 px-2 text-white">
+            <Label htmlFor="picture">Upload Picture</Label>
+            <Input
+              id="picture"
+              className="bg-blue-500 border-none"
+              type="file"
+            />
           </div>
         </div>
 

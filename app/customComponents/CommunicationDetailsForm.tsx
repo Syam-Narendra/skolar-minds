@@ -48,13 +48,75 @@ export const CommunicationDetailsForm = () => {
               <span className="text-red-600">* Required</span>
             )}
           </div>
-          <div className="w-full md:w-1/3 px-2"></div>
+
+          <p className="mb-1 w-full px-2 text-sm text-[#38BDF8]">
+            Communication Details
+          </p>
 
           <div className="w-full mt-3 md:w-1/3 px-2">
-            <p className="mb-1 text-sm text-[#38BDF8]">Communication Details</p>
             <input
               className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
-              placeholder="Enter Email"
+              placeholder="Door No."
+              {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            />
+            {errors.email && (
+              <span className="text-red-600">* Invalid E-mail</span>
+            )}
+          </div>
+          <div className="w-full mt-3 md:w-1/3 px-2">
+            <input
+              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              placeholder="Street Name"
+              {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            />
+            {errors.email && (
+              <span className="text-red-600">* Invalid E-mail</span>
+            )}
+          </div>
+          <div className="w-full mt-3 md:w-1/3 px-2">
+            <input
+              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              placeholder="City/Village"
+              {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            />
+            {errors.email && (
+              <span className="text-red-600">* Invalid E-mail</span>
+            )}
+          </div>
+          <div className="w-full mt-3 md:w-1/3 px-2">
+            <input
+              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              placeholder="Pincode"
+              {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            />
+            {errors.email && (
+              <span className="text-red-600">* Invalid E-mail</span>
+            )}
+          </div>
+          <div className="w-full mt-3 md:w-1/3 px-2">
+            <input
+              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              placeholder="Country"
+              {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            />
+            {errors.email && (
+              <span className="text-red-600">* Invalid E-mail</span>
+            )}
+          </div>
+          <div className="w-full mt-3 md:w-1/3 px-2">
+            <input
+              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              placeholder="State"
+              {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            />
+            {errors.email && (
+              <span className="text-red-600">* Invalid E-mail</span>
+            )}
+          </div>
+          <div className="w-full mt-3 md:w-1/3 px-2">
+            <input
+              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              placeholder="Mandal"
               {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
             />
             {errors.email && (
@@ -67,7 +129,7 @@ export const CommunicationDetailsForm = () => {
           <input
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             type="submit"
-            value="Next"
+            value="Submit"
           />
         </div>
       </form>
