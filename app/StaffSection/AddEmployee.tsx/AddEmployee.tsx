@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { CommunicationDetailsForm } from "~/customComponents/CommunicationDetailsForm";
-import { PersonalDetailsForm } from "~/customComponents/PersonalDetailsForm";
-import { IntialDetailsForm } from "~/customComponents/intialDetailsForm";
+import { IntialDetailsForm } from "~/StaffSection/AddEmployee.tsx/intialDetailsForm";
+import { PersonalDetailsForm } from "./PersonalDetailsForm";
+import { CommunicationDetailsForm } from "./CommunicationDetailsForm";
 
 const formTypes = {
   EmployeeDetails: "EmployeeDetailsForm",
@@ -9,7 +9,7 @@ const formTypes = {
   CommunicationDetails: "CommunicationDetailsForm",
 };
 
-export default function App() {
+export const AddEmployee = () => {
   const [activeForm, setActiveForm] = useState(formTypes.EmployeeDetails);
 
   const renderActiveForm = () => {
@@ -58,4 +58,4 @@ export default function App() {
       <div className="space-y-4 pl-5">{renderActiveForm()}</div>
     </div>
   );
-}
+};
