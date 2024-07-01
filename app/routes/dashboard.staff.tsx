@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AddEmployee } from "~/StaffSection/AddEmployee.tsx/AddEmployee";
+import { AddEmployee } from "~/StaffSection/AddEmployee/AddEmployee";
 import { AllEmployees } from "~/StaffSection/AllEmployees";
 import { AppointmentLetter } from "~/StaffSection/AppoinmentLetter";
 import { EmployeeIdCard } from "~/StaffSection/EmployeeIdCard";

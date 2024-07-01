@@ -1,4 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+import { setEmployeeObject } from "./globalVariables";
 
 type Inputs = {
   emergencyContactName: string;
@@ -18,7 +19,7 @@ export const CommunicationDetailsForm = () => {
   const { pincode } = watch();
   console.log(pincode);
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+    setEmployeeObject(data);
   };
 
   return (

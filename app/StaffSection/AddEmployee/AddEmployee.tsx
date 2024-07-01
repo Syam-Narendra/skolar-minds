@@ -1,27 +1,24 @@
 import { useState } from "react";
-import { IntialDetailsForm } from "~/StaffSection/AddEmployee.tsx/intialDetailsForm";
 import { PersonalDetailsForm } from "./PersonalDetailsForm";
 import { CommunicationDetailsForm } from "./CommunicationDetailsForm";
-
-const formTypes = {
-  EmployeeDetails: "EmployeeDetailsForm",
-  PersonalDetails: "PersonalDetailsForm",
-  CommunicationDetails: "CommunicationDetailsForm",
-};
+import { IntialDetailsForm } from "./IntialDetailsForm";
+import { formTypes } from "./globalVariables";
 
 export const AddEmployee = () => {
-  const [activeForm, setActiveForm] = useState(formTypes.EmployeeDetails);
+  const [activeForm, setActiveForm] = useState<string>(
+    formTypes.EmployeeDetails
+  );
 
   const renderActiveForm = () => {
     switch (activeForm) {
       case formTypes.EmployeeDetails:
-        return <IntialDetailsForm />;
+        return <IntialDetailsForm changeTab={setActiveForm} />;
       case formTypes.PersonalDetails:
-        return <PersonalDetailsForm />;
+        return <PersonalDetailsForm changeTab={setActiveForm} />;
       case formTypes.CommunicationDetails:
         return <CommunicationDetailsForm />;
       default:
-        return null;
+        return <h1>Something Went Wrong</h1>;
     }
   };
 
@@ -51,7 +48,7 @@ export const AddEmployee = () => {
             "bg-black text-white"
           } w-full md:w-1/3 p-2 text-gray-400 font-bold rounded-[0.5rem]`}
         >
-          Communicaton Details
+          Communication Details
         </button>
       </div>
 

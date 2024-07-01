@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useState } from "react";
+import { formTypes, setEmployeeObject } from "./globalVariables";
 
 import {
   Select,
@@ -23,7 +23,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-
+import { useState } from "react";
 type Inputs = {
   employeeName: string;
   mobileNumber: number;
@@ -39,7 +39,11 @@ const employeeSpecializationTypes = {
   Management: "Management",
 };
 
-export const IntialDetailsForm = () => {
+export const IntialDetailsForm = ({
+  changeTab,
+}: {
+  changeTab: (data: string) => void;
+}) => {
   const {
     register,
     handleSubmit,
@@ -50,7 +54,8 @@ export const IntialDetailsForm = () => {
   const watchedValues = watch();
   const [date, setDate] = useState<Date>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+    changeTab(formTypes.PersonalDetails);
+    setEmployeeObject(data);
   };
 
   const EmployeeSpecializationForm = () => {

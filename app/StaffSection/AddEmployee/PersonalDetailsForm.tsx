@@ -21,6 +21,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
+import { formTypes, setEmployeeObject } from "./globalVariables";
 
 type Inputs = {
   parentName: string;
@@ -41,17 +42,21 @@ const iDCards = {
   RationCard: "Ration Card",
 };
 
-export const PersonalDetailsForm = () => {
+export const PersonalDetailsForm = ({
+  changeTab,
+}: {
+  changeTab: (data: string) => void;
+}) => {
   const {
     register,
     handleSubmit,
-
     formState: { errors },
     setValue,
   } = useForm<Inputs>();
   const [date, setDate] = useState<Date>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+    changeTab(formTypes.CommunicationDetails);
+    setEmployeeObject(data);
   };
 
   return (
@@ -81,7 +86,7 @@ export const PersonalDetailsForm = () => {
               >
                 <SelectGroup>
                   <SelectItem value="India">India</SelectItem>
-                  <SelectItem value="Austrila">Australia</SelectItem>
+                  <SelectItem value="Australia">Australia</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -172,12 +177,18 @@ export const PersonalDetailsForm = () => {
                 {...register("bloodGroup", { required: true })}
               >
                 <SelectGroup>
-                  <SelectItem value="India">India</SelectItem>
-                  <SelectItem value="Austrila">Australia</SelectItem>
+                  <SelectItem value="A+">A+</SelectItem>
+                  <SelectItem value="A-">A-</SelectItem>
+                  <SelectItem value="B+">B+</SelectItem>
+                  <SelectItem value="B-">B-</SelectItem>
+                  <SelectItem value="AB+">AB+</SelectItem>
+                  <SelectItem value="AB-">AB-</SelectItem>
+                  <SelectItem value="O+">O+</SelectItem>
+                  <SelectItem value="O-">O-</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
-            {errors.nationality && (
+            {errors.bloodGroup && (
               <span className="text-red-600">* Please select Blood Group</span>
             )}
           </div>
