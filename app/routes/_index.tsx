@@ -1,35 +1,76 @@
-export default function Index() {
-  return (
-    <div className="bg-[url('https://i.ibb.co/kcqXz0F/dl-beatsnoop-com-3000-Uqp-Qg-Xw9-KM.jpg')] bg-cover bg-center flex flex-col items-center justify-center min-h-screen py-2">
-      <button
-        onClick={() =>
-          (window.location.href = "http://localhost:3002/auth/google")
-        }
-        className="flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 hover:bg-gray-100 transition duration-200"
-      >
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
-          className="h-6 w-6"
-        />
+import React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
-        <span className="text-gray-700 w-48 font-medium p-2">
-          Sign in with Google
-        </span>
-      </button>
-      <button
-        onClick={() =>
-          (window.location.href = "http://localhost:3002/auth/google")
-        }
-        className="flex items-center justify-center m-3 bg-white border border-gray-300 rounded-lg shadow-md px-4 py-2 hover:bg-gray-100 transition duration-200"
+const SigninPage = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm<{ email: string; password: string }>();
+  const onSubmit: SubmitHandler<{ email: string; password: string }> = (data) => console.log(data);
+  const formFields = [
+    { name: 'email', label: 'Email', type: 'email', placeholder: "Enter your email" },
+    { name: 'password', label: 'Password', type: 'password', placeholder: "Enter your password" }
+  ];
+
+  return (
+    <div className="relative min-h-screen flex items-center justify-center bg-[url('https://i.ibb.co/tY1mPz1/bg.png')]">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url(path_to_your_image.jpg)" }}
       >
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
-          className="h-6 w-6"
-        />
-        <span className="text-gray-700 w-48 font-medium p-2">
-          Sign in with Microsoft
-        </span>
-      </button>
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+      </div>
+      <div className="relative bg-[#151515] bg-opacity-30 backdrop-blur-xl p-8 rounded-lg shadow-[0_-4px_10px_rgba(255,255,255,0.1)] w-full max-w-sm">
+        {/* <h1 className="text-4xl font-bold text-center text-white mb-6">Skolar Minds</h1> */}
+        <h2 className="text-2xl font-bold text-center text-white mb-6">
+          Sign in to Skolar Minds
+        </h2>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid grid-cols-1 gap-4 pt-5 pb-5"
+        >
+          {formFields.map((field) => (
+            <div key={field.name} className="flex flex-col">
+              <label className="text-white mb-1" htmlFor={field.name}>
+                {field.label}
+              </label>
+              <input
+                placeholder={field.placeholder}
+                id={field.name}
+                {...register(field.name as "email" | "password", {
+                  required: `${field.label} is required`,
+                })}
+                type={field.type}
+                className="p-2 rounded-lg bg-transparent border-2 border-[#70707B] text-white focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:border-transparent"
+              />
+              {errors[field.name as "email" | "password"] && (
+                <span className="text-red-500 text-sm">
+                  {errors[
+                    field.name as "email" | "password"
+                  ]?.message?.toString()}
+                </span>
+              )}
+            </div>
+          ))}
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="w-full p-2 bg-[#1877F2] text-white rounded mt-3 hover:bg-gray-200 transition duration-200"
+            >
+              Sign In
+            </button>
+          </div>
+        </form>
+        <div className="flex justify-between ">
+          <p className="text-[#70707B] text-sm">
+            Don't have an account?
+            <br />
+            <a className="text-[#70707B] hover:underline" href="/signup">
+              Sign Up
+            </a>
+          </p>
+          <p className="text-[#70707B] text-sm">Forgot Password?</p>
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default SigninPage;
