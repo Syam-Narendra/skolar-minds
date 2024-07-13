@@ -10,21 +10,21 @@ const SigninPage = () => {
   ];
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-[url('https://i.ibb.co/tY1mPz1/bg.png')]">
+    <div className="relative min-h-screen flex items-center justify-center">
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url(path_to_your_image.jpg)" }}
+        style={{ backgroundImage: "url('https://i.ibb.co/tY1mPz1/bg.png')" }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
       </div>
       <div className="relative bg-[#151515] bg-opacity-30 backdrop-blur-xl p-8 rounded-lg shadow-[0_-4px_10px_rgba(255,255,255,0.1)] w-full max-w-sm">
-        {/* <h1 className="text-4xl font-bold text-center text-white mb-6">Skolar Minds</h1> */}
+        <p className="text-center text-[#70707B] mb-2">Welcome Back</p>
         <h2 className="text-2xl font-bold text-center text-white mb-6">
           Sign in to Skolar Minds
         </h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="grid grid-cols-1 gap-4 pt-5 pb-5"
+          className="grid grid-cols-1 gap-3 pt-5 pb-5"
         >
           {formFields.map((field) => (
             <div key={field.name} className="flex flex-col">
@@ -40,19 +40,19 @@ const SigninPage = () => {
                 type={field.type}
                 className="p-2 rounded-lg bg-transparent border-2 border-[#70707B] text-white focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:border-transparent"
               />
-              {errors[field.name as "email" | "password"] && (
-                <span className="text-red-500 text-sm">
+              {errors[field.name as "email" | "password"] ? (
+                <span className="text-red-500 text-sm mt-2">
                   {errors[
                     field.name as "email" | "password"
                   ]?.message?.toString()}
                 </span>
-              )}
+              ): <span className='text-sm mt-2 text-transparent'>.</span>}
             </div>
           ))}
           <div className="flex justify-center">
             <button
               type="submit"
-              className="w-full p-2 bg-[#1877F2] text-white rounded mt-3 hover:bg-gray-200 transition duration-200"
+              className="w-full p-2 bg-[#1877F2] text-white rounded mt-3 transition duration-200"
             >
               Sign In
             </button>
