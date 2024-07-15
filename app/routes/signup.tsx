@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-
-
+import axios, { AxiosError } from "axios";
 interface FormFields {
   name: string;
   email: string;
@@ -25,27 +24,31 @@ const SignUpPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>();
-  const onSubmit: SubmitHandler<FormFields> = (data) =>{
-    if( data.password !== data.confirmPassword){
+  const onSubmit: SubmitHandler<FormFields> = async(formData) =>{
+    setError("");
+
+    if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
-    }else{
-      fetch("http://localhost:3000/api/create-account",{
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }).then((res) => {
-        if (res.status === 200) {
+    } else {
+      try {
+        const { data, status } = await axios.post(
+          "http://localhost:3000/api/create-account",
+          formData
+        );
+        if (status === 200) {
           setError("");
-          console.log("success");
-        } else {
+          console.log(data);
+          console.log(formData);
+        }
+        else{
           setError("Something went wrong");
         }
-      })
+      } catch (error) {
+        const err = error as AxiosError;
+        const errorMsg = err.response?.data as { message: string };
+        setError(errorMsg.message);
+      }
     }
-
-    console.log(data);
   }
     
 
@@ -56,7 +59,7 @@ const SignUpPage = () => {
     { name: "email", label: "Email", type: "email" },
     { name: "mobile", label: "Mobile Number", type: "number" },
     { name: "employeeSize", label: "Employee Size", type: "number" },
-    { name: "studentsSize", label: "Students Size", type: "number" },
+    { name: "studentSize", label: "Students Size", type: "number" },
     { name: "schoolAddress", label: "School Address", type: "text" },
     { name: "district", label: "District", type: "text" },
     { name: "state", label: "State", type: "text" },
@@ -67,15 +70,15 @@ const SignUpPage = () => {
   ];
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center">
+    <div className="relative min-h-screen p-10 flex items-center justify-center">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('https://i.ibb.co/tY1mPz1/bg.png')" }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
       </div>
-      <div className=" relative bg-[#151515] bg-opacity-30 backdrop-blur-xl p-8 rounded-lg shadow-[0_-4px_10px_rgba(255,255,255,0.1)] w-full max-w-fit">
-        <h2 className="text-2xl font-bold text-center text-white mb-6">
+      <div className=" relative bg-[#151515] bg-opacity-30 backdrop-blur-xl p-6 rounded-lg shadow-[0_-4px_10px_rgba(255,255,255,0.1)] w-full max-w-fit">
+        <h2 className="text-2xl font-bold text-center text-white mb-2">
           Start Your 7 Day Free Trial !
         </h2>
         <form
@@ -85,9 +88,9 @@ const SignUpPage = () => {
         >
           {formFields.map((field) => (
             <div key={field.name} className="flex flex-col">
+              <label htmlFor={field.name} className="text-white">{field.label}</label>
               <input
                 autoComplete="off"
-                placeholder={field.label}
                 id={field.name}
                 {...register(field.name as keyof FormFields, {
                   required: `${field.label} is required`,
@@ -100,17 +103,17 @@ const SignUpPage = () => {
                   {errors[field.name as keyof FormFields]?.message?.toString()}
                 </span>
               ) : (
-                <span className="text-white text-sm mt-2 text-transparent">
+                <span className=" text-sm mt-2 text-transparent">
                   .
                 </span>
               )}
             </div>
           ))}
-          <div className=" flex flex-col items-center justify-center md:col-span-full gap-4">
+          <div className=" flex flex-col items-center justify-center md:col-span-full gap-3">
             {error && <span className="text-red-500 text-sm">{error}</span>}
             <button
               type="submit"
-              className=" p-2 bg-[#1877F2] text-white rounded mt-3 transition duration-200"
+              className=" p-2 bg-[#1877F2] text-white rounded transition duration-200"
             >
               Sign Up For Verification
             </button>
