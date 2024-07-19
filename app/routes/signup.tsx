@@ -38,7 +38,7 @@ const Form = ({
     } else {
       try {
         const { data, status } = await axios.post(
-          "http://localhost:3000/api/create-account",
+          "http://13.126.83.105:3000/api/create-account",
           formData
         );
         if (status === 200) {
@@ -169,7 +169,7 @@ const SuccessMessage = () => {
 };
 
 const SignUpPage = () => {
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(true);
   return (
     <div className="relative min-h-screen p-10 flex items-center justify-center">
       <div

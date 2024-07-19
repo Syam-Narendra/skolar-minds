@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { redirect } from "@remix-run/node"; // or cloudflare/deno
+
 const SigninPage = () => {
   const {
     register,
@@ -16,7 +18,7 @@ const SigninPage = () => {
     loginPassword: string;
   }> = async (data) => {
     setLoading(true);
-    const response = await fetch("http://localhost:3000/api/login", {
+    const response = await fetch("http://13.126.83.105:3000/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,12 +32,13 @@ const SigninPage = () => {
         colour: "text-yellow-500",
         message: result.message,
       });
-    }
-    if (response.status === 404 || response.status === 401) {
+    } else if (response.status === 404 || response.status === 401) {
       setResponseError({
         colour: "text-red-500",
         message: result.message,
       });
+    } else if (response.status === 200) {
+      redirect("/dashboard");
     }
   };
   const formFields = [
