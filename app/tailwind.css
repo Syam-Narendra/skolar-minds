@@ -4,7 +4,7 @@
 
 @layer components {
   .loader {
-    @apply w-12 p-2 aspect-square rounded-full bg-[#f4f6f6];
+    @apply w-12 p-2 aspect-square rounded-full bg-[#0f81ba];
     --_m: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
     -webkit-mask: var(--_m);
     mask: var(--_m);

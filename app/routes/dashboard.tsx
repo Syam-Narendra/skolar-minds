@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderFunction, MetaFunction } from "@remix-run/node";
 import { MdPeople } from "react-icons/md";
 import { GiTeacher } from "react-icons/gi";
 import {
@@ -7,7 +7,7 @@ import {
   FcMoneyTransfer,
   FcStatistics,
 } from "react-icons/fc";
-import { Link, Outlet, useLocation } from "@remix-run/react";
+import { Link, Outlet, useLoaderData, useLocation } from "@remix-run/react";
 import "../components/css/dashboard.css";
 import {
   SettingsIcon,
@@ -16,6 +16,7 @@ import {
   HomeIcon,
 } from "../customComponents/icons";
 import { FaSchool } from "react-icons/fa";
+import { checkCookie } from "~/server/authentication";
 export const meta: MetaFunction = () => {
   return [
     { title: "Skolar Minds" },
@@ -66,7 +67,14 @@ const DashboardNavItems = [
   },
 ];
 
+
+export const loader: LoaderFunction = async ({ request }) => {
+  return checkCookie({ request })
+}
+
+
 export default function Dashboard() {
+  const loader = useLoaderData();
   const activePath = useLocation().pathname;
   return (
     <div className="min-h-screen ">

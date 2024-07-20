@@ -1,8 +1,24 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { redirect } from "@remix-run/node"; // or cloudflare/deno
+import { useLoaderData, useNavigate } from "@remix-run/react";
+import Cookies from "js-cookie";
+import { LoaderFunction, redirect } from "@remix-run/node";
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const userToken = request.headers.get("Cookie");
+  if (userToken) {
+    const cookies = new URLSearchParams(userToken);
+    const myCookie = cookies.get("token");
+    if(myCookie !== undefined) {
+      return redirect("/dashboard");
+    }
+  }
+  return null;
+};
 
 const SigninPage = () => {
+  const redirection = useLoaderData();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -17,28 +33,42 @@ const SigninPage = () => {
     loginEmail: string;
     loginPassword: string;
   }> = async (data) => {
+    setResponseError({ colour: "", message: "" });
     setLoading(true);
-    const response = await fetch("http://13.126.83.105:3000/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const result = await response.json();
-    setLoading(false);
-    if (response.status === 202) {
-      setResponseError({
-        colour: "text-yellow-500",
-        message: result.message,
+    try {
+      const response = await fetch("https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
-    } else if (response.status === 404 || response.status === 401) {
+      const result = (await response.json()) as {
+        message: string;
+        token: string;
+      };
+      setLoading(false);
+      if (response.status === 202) {
+        setResponseError({
+          colour: "text-yellow-500",
+          message: result.message,
+        });
+      } else if (response.status === 404 || response.status === 401) {
+        setResponseError({
+          colour: "text-red-500",
+          message: result.message,
+        });
+      } else if (response.status === 200) {
+        Cookies.set("token", result.token, { expires: 1 });
+        navigate("/dashboard", { replace: true });
+      }
+    } catch (error) {
+      setLoading(false);
+      const err = error as Error;
       setResponseError({
         colour: "text-red-500",
-        message: result.message,
+        message: err.message,
       });
-    } else if (response.status === 200) {
-      redirect("/dashboard");
     }
   };
   const formFields = [
@@ -55,7 +85,6 @@ const SigninPage = () => {
       placeholder: "Enter your password",
     },
   ];
-
   return (
     <div className="relative min-h-screen flex items-center justify-center">
       <div

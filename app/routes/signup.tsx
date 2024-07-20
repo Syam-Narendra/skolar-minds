@@ -38,7 +38,7 @@ const Form = ({
     } else {
       try {
         const { data, status } = await axios.post(
-          "http://13.126.83.105:3000/api/create-account",
+          "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/create-account",
           formData
         );
         if (status === 200) {
