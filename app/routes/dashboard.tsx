@@ -7,8 +7,24 @@ import {
   FcMoneyTransfer,
   FcStatistics,
 } from "react-icons/fc";
-import { Link, Outlet, useLoaderData, useLocation } from "@remix-run/react";
+import {
+  Link,
+  Outlet,
+  useLoaderData,
+  useLocation,
+  useNavigate,
+} from "@remix-run/react";
 import "../components/css/dashboard.css";
+
+import { Button } from "~/components/ui/button";
+import Cookies from "js-cookie";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+
 import {
   SettingsIcon,
   DownIcon,
@@ -67,15 +83,20 @@ const DashboardNavItems = [
   },
 ];
 
-
 export const loader: LoaderFunction = async ({ request }) => {
-  return checkCookie({ request })
-}
-
+  return checkCookie({ request });
+};
 
 export default function Dashboard() {
   const loader = useLoaderData();
   const activePath = useLocation().pathname;
+  const navigate = useNavigate();
+
+  const confirmLogout = () => {
+    Cookies.remove("token");
+    navigate("/", { replace: true });
+  };
+
   return (
     <div className="min-h-screen ">
       <div className="flex justify-end w-full items-center bg-stone-950">
@@ -118,9 +139,32 @@ export default function Dashboard() {
               );
             })}
           </nav>
-          <div className="flex mt-auto justify-between ">
+          <div className="flex mt-auto items-center justify-between ">
             <p>Logout</p>
-            <LogoutIcon />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost">
+                  <LogoutIcon />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 bg-black">
+                <div className="grid gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none text-white">
+                      Confirm Logout
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      Are you sure you want to logout?
+                    </p>
+                  </div>
+                  <div className="flex justify-end">
+                    <Button onClick={confirmLogout} variant="destructive">
+                      Logout
+                    </Button>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
         </aside>
 
