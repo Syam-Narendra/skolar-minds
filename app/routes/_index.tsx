@@ -9,7 +9,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (userToken) {
     const cookies = new URLSearchParams(userToken);
     const myCookie = cookies.get("token");
-    if(myCookie !== undefined) {
+    if (myCookie !== undefined && myCookie !== "undefined") {
       return redirect("/dashboard");
     }
   }
@@ -36,24 +36,28 @@ const SigninPage = () => {
     setResponseError({ colour: "", message: "" });
     setLoading(true);
     try {
-      const response = await fetch("https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       const result = (await response.json()) as {
         message: string;
         token: string;
       };
+      console.log(result);
       setLoading(false);
       if (response.status === 202) {
         setResponseError({
           colour: "text-yellow-500",
           message: result.message,
         });
-      } else if (response.status === 404 || response.status === 401) {
+      } else if (response.status === 404 || response.status === 401 || response.status === 400) {
         setResponseError({
           colour: "text-red-500",
           message: result.message,
@@ -103,29 +107,50 @@ const SigninPage = () => {
           className="grid grid-cols-1 gap-3 pt-5 pb-5"
           onChange={() => setResponseError({ colour: "", message: "" })}
         >
-          {formFields.map((field) => (
-            <div key={field.name} className="flex flex-col">
-              <label className="text-white mb-1" htmlFor={field.name}>
-                {field.label}
-              </label>
-              <input
-                placeholder={field.placeholder}
-                id={field.name}
-                {...register(field.name as "loginEmail" | "loginPassword", {
-                  required: `${field.label} is required`,
-                })}
-                type={field.type}
-                className="p-2 rounded-lg bg-transparent border-2 border-[#70707B] text-white focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:border-transparent"
-              />
-              {errors[field.name as "loginEmail" | "loginPassword"] && (
-                <span className="text-red-500 text-sm mt-2">
-                  {errors[
-                    field.name as "loginEmail" | "loginPassword"
-                  ]?.message?.toString()}
-                </span>
-              )}
-            </div>
-          ))}
+          <div className="flex flex-col">
+            <label className="text-white mb-1" htmlFor="loginEmail">
+              Email
+            </label>
+            <input
+              placeholder="Enter your email"
+              id="loginEmail"
+              {...register("loginEmail", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
+              type="text"
+              className="p-2 rounded-lg bg-transparent border-2 border-[#70707B] text-white focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:border-transparent"
+            />
+            {errors.loginEmail && (
+              <span className="text-red-500 text-sm mt-2">
+                {errors.loginEmail?.message}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-col">
+            <label className="text-white mb-1" htmlFor="loginPassword">
+              Password
+            </label>
+            <input
+              placeholder="Enter your password"
+              id="loginPassword"
+              {...register("loginPassword", {
+                required: "Password is required",
+                
+              })}
+              type="passsword"
+              className="p-2 rounded-lg bg-transparent border-2 border-[#70707B] text-white focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:border-transparent"
+            />
+            {errors.loginPassword && (
+              <span className="text-red-500 text-sm mt-2">
+                {errors.loginPassword?.message}
+              </span>
+            )}
+          </div>
+
           <p className={responseError.colour}>{responseError.message}</p>
           <div className="flex flex-col items-center justify-center">
             {isLoading ? (

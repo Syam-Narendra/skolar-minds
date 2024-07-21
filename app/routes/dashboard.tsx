@@ -33,6 +33,7 @@ import {
 } from "../customComponents/icons";
 import { FaSchool } from "react-icons/fa";
 import { checkCookie } from "~/server/authentication";
+import { useEffect, useState } from "react";
 export const meta: MetaFunction = () => {
   return [
     { title: "Skolar Minds" },
@@ -91,11 +92,30 @@ export default function Dashboard() {
   const loader = useLoaderData();
   const activePath = useLocation().pathname;
   const navigate = useNavigate();
-
+  const [homeData, setHomeData] = useState({
+    name: "",
+    school_name: "",
+    email: "",
+  });
   const confirmLogout = () => {
     Cookies.remove("token");
     navigate("/", { replace: true });
   };
+
+  const getHomeData = async () => {
+    const userToken = Cookies.get("token");
+    const cookieRes = await fetch("http://localhost:3000/api/get-home-data", {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    });
+    const data = await cookieRes.json();
+    setHomeData(data);
+  };
+
+  useEffect(() => {
+    getHomeData();
+  }, []);
 
   return (
     <div className="min-h-screen ">
@@ -121,7 +141,7 @@ export default function Dashboard() {
               }}
               width="30"
             />
-            <h1 className="text-lg font-medium">School Name</h1>
+            <h1 className="text-lg font-medium">{homeData.school_name}</h1>
           </div>
           <nav className="space-y-2">
             {DashboardNavItems.map((item, index) => {

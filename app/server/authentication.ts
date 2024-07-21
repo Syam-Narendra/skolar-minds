@@ -1,16 +1,19 @@
 import { redirect } from "@remix-run/node";
 
-export function checkCookie({ request }: { request: Request }) {
+export async function checkCookie({ request }: { request: Request }) {
   const userToken = request.headers.get("Cookie");
-  if (!userToken || userToken === undefined || userToken === null) {
-    return redirect("/");
-  }
   if (userToken) {
     const cookies = new URLSearchParams(userToken);
     const myCookie = cookies.get("token");
-    if (myCookie === undefined) {
+    console.log(myCookie !== "undefined");
+    const cookieRes = await fetch('http://localhost:3000/api/validate-token',{
+      headers: {
+        'Authorization': `Bearer ${myCookie}`
+      }
+    })
+    if( cookieRes.status === 200) {
       return request
     }
   }
-  return null;
+  return redirect("/");
 }
