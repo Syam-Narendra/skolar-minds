@@ -99,17 +99,18 @@ export default function Dashboard() {
   });
   const confirmLogout = () => {
     Cookies.remove("token");
-    navigate("/", { replace: true });
+    window.location.reload()
   };
 
   const getHomeData = async () => {
     const userToken = Cookies.get("token");
-    const cookieRes = await fetch("http://localhost:3000/api/get-home-data", {
+    const cookieRes = await fetch("https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-home-data", {
       headers: {
         Authorization: `Bearer ${userToken}`,
       },
     });
     const data = await cookieRes.json();
+    console.log("data",data);
     setHomeData(data);
   };
 

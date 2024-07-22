@@ -37,7 +37,7 @@ const SigninPage = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:3000/api/login",
+        "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/login",
         {
           method: "POST",
           headers: {
