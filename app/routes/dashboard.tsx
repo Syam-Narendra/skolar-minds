@@ -7,13 +7,7 @@ import {
   FcMoneyTransfer,
   FcStatistics,
 } from "react-icons/fc";
-import {
-  Link,
-  Outlet,
-  useLoaderData,
-  useLocation,
-  useNavigate,
-} from "@remix-run/react";
+import { Link, Outlet, useLoaderData, useLocation } from "@remix-run/react";
 import "../components/css/dashboard.css";
 
 import { Button } from "~/components/ui/button";
@@ -91,7 +85,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Dashboard() {
   const loader = useLoaderData();
   const activePath = useLocation().pathname;
-  const navigate = useNavigate();
   const [homeData, setHomeData] = useState({
     name: "",
     school_name: "",
@@ -99,18 +92,21 @@ export default function Dashboard() {
   });
   const confirmLogout = () => {
     Cookies.remove("token");
-    window.location.reload()
+    window.location.reload();
   };
 
   const getHomeData = async () => {
     const userToken = Cookies.get("token");
-    const cookieRes = await fetch("https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-home-data", {
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    });
+    const cookieRes = await fetch(
+      "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-home-data",
+      {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      }
+    );
     const data = await cookieRes.json();
-    console.log("data",data);
+    console.log("data", data);
     setHomeData(data);
   };
 
@@ -145,12 +141,12 @@ export default function Dashboard() {
             <h1 className="text-lg font-medium">{homeData.school_name}</h1>
           </div>
           <nav className="space-y-2">
-            {DashboardNavItems.map((item, index) => {
+            {DashboardNavItems.map((item) => {
               const activeBg =
                 activePath === item.to ? "bg-[#272727]" : "bg-black";
               return (
                 <Link
-                  key={index}
+                  key={item.to}
                   to={item.to}
                   className={`${activeBg} hover:underline w-full flex items-center space-x-2 nav-item py-2 px-2 rounded-[0.5rem] text-white`}
                 >
