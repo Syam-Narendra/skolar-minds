@@ -42,13 +42,13 @@ export default function Staff() {
           {employeeCategoryList.map((each, index) => {
             const activeButton =
               employeeCategory.category === each.category
-                ? "bg-[#f3ff47] text-black"
-                : "bg-[#272727] text-white";
+                ? "bg-black text-white border border-[#9CA3AF]"
+                : "bg-[#0C0A09] text-[#9CA3AF]";
             return (
               <button
                 onClick={() => setEmployeeCategory(each)}
                 key={index}
-                className={`${activeButton} items-center content-center w-52 h-24 bg-[#272727] rounded-2xl p-4 m-2`}
+                className={`${activeButton}  items-center content-center w-52 h-24 bg-[#272727] rounded-2xl p-4 m-2`}
               >
                 <h2 className="flex justify-around items-center text-lg text-center font-semibold">
                   {each.category}
