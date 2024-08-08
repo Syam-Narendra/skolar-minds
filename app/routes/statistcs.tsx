@@ -1,5 +1,8 @@
+import Dashboard from "~/customComponents/Dashboard";
+
 const Stats = () => {
   return (
+    <Dashboard>
     <div className="flex flex-col text-center items-center justify-center min-h-full bg-[#E6FCFF]">
       <div className="text-4xl font-bold text-[#008080] my-10">
         School Statistcs
@@ -27,6 +30,7 @@ const Stats = () => {
         </div>
       </div>
     </div>
+    </Dashboard>
   );
 };
 

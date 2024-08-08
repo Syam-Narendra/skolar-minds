@@ -15,5 +15,5 @@ export async function checkCookie({ request }: { request: Request }) {
       return request
     }
   }
-  return redirect("/");
+  return redirect("/login");
 }

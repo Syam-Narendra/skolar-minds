@@ -37,53 +37,49 @@ export const meta: MetaFunction = () => {
 
 const DashboardNavItems = [
   {
-    to: "/dashboard",
+    to: "/",
     icon: <HomeIcon />,
     label: "Home",
   },
   {
-    to: "/dashboard/students",
+    to: "/students",
     icon: <MdPeople className="w-4 h-4" />,
     label: "Students",
   },
   {
-    to: "/dashboard/staff",
+    to: "/staff",
     icon: <GiTeacher className="w-4 h-4" />,
     label: "Staff",
   },
   {
-    to: "/dashboard/classes",
+    to: "/classes",
     icon: <FaSchool className="w-4 h-4" />,
     label: "Classes",
   },
   {
-    to: "/dashboard/stats",
+    to: "/statistcs",
     icon: <FcStatistics className="w-4 h-4" />,
     label: "Statistics",
   },
   {
-    to: "/dashboard/fee-structure",
+    to: "/fee-structure",
     icon: <FcMoneyTransfer className="w-4 h-4" />,
     label: "Fee Structure",
   },
   {
-    to: "/dashboard/transport",
+    to: "/transport",
     icon: <FcInTransit className="w-4 h-4" />,
     label: "Transport",
   },
   {
-    to: "/dashboard/timetable",
+    to: "/timetable",
     icon: <FcAddressBook className="w-4 h-4" />,
     label: "Timetable",
   },
 ];
 
-export const loader: LoaderFunction = async ({ request }) => {
-  return checkCookie({ request });
-};
 
-export default function Dashboard() {
-  const loader = useLoaderData();
+export default function Dashboard({ children }: { children: React.ReactNode }) {
   const activePath = useLocation().pathname;
   const [homeData, setHomeData] = useState({
     name: "",
@@ -186,7 +182,7 @@ export default function Dashboard() {
         </aside>
 
         <div className="ml-52 w-full h-fit min-h-screen p-4 staff-dashboard bg-black">
-          <Outlet />
+          {children}
         </div>
       </div>
     </div>

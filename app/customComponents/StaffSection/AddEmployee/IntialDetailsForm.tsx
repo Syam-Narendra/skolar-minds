@@ -1,6 +1,6 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { formTypes, setEmployeeObject } from "./globalVariables";
-
+import { DatePicker } from "rsuite";
 import {
   Select,
   SelectContent,
@@ -31,6 +31,7 @@ type Inputs = {
   employeeRole: string;
   employeeDesignation: string;
   salary: number;
+  employeeJoiningDate: Date;
 };
 
 const employeeSpecializationTypes = {
@@ -48,8 +49,10 @@ export const IntialDetailsForm = ({
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
     setValue,
+    clearErrors,
   } = useForm<Inputs>();
   const watchedValues = watch();
   const [date, setDate] = useState<Date>();
@@ -117,7 +120,11 @@ export const IntialDetailsForm = ({
   return (
     <div>
       <h1 className="text-white px-2">Add Employee Details</h1>
-      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="space-y-4"
+        onChange={() => clearErrors()}
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className="flex space-y-3 flex-wrap">
           <div className="w-full mt-3 md:w-1/3 px-2">
             <input
@@ -198,35 +205,47 @@ export const IntialDetailsForm = ({
             )}
           </div>
 
-          <div className="w-full md:w-1/3 px-2">
-            <Popover>
-              <PopoverTrigger className="bg-black  hover:bg-black" asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-full justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4 text-white" />
-                  {date ? (
-                    format(date, "PPP")
-                  ) : (
-                    <span className="text-[#9CA3AF]">Select Joining Date</span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-full p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  initialFocus
-                  className="bg-black text-white"
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
+          {/* <div className="w-full md:w-1/3 px-2">
+            <Controller
+              name="employeeJoiningDate"
+              control={control}
+              rules={{ required: "Please select a date" }}
+              render={({ field }) => (
+                <Popover {...field}>
+                  <PopoverTrigger className="bg-black  hover:bg-black" asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4 text-white" />
+                      {date ? (
+                        format(date, "PPP")
+                      ) : (
+                        <span className="text-[#9CA3AF]">
+                          Select Joining Date
+                        </span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-full p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                      className="bg-black text-white"
+                    />
+                  </PopoverContent>
+                </Popover>
+              )}
+            />
+            {errors.employeeJoiningDate && (
+              <span className="text-red-600">* Please select a date</span>
+            )}
+          </div> */}
           <div className="w-full md:w-1/3 px-2 ">
             <input
               className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
@@ -238,14 +257,14 @@ export const IntialDetailsForm = ({
               <span className="text-red-600">* Enter Salary</span>
             )}
           </div>
-          <div className="w-full md:w-1/3 px-2 text-white">
+          {/* <div className="w-full md:w-1/3 px-2 text-white">
             <Label htmlFor="picture">Upload Picture</Label>
             <Input
               id="picture"
               className="bg-blue-500 border-none"
               type="file"
             />
-          </div>
+          </div> */}
         </div>
 
         <div className="px-2">

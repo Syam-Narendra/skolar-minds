@@ -5,7 +5,7 @@ export const formTypes = {
 };
 
 type Inputs = {
-  [key: string]: string | number;
+  [key: string]: string | number | Date;
 };
 
 let employeeDataObject: Inputs = {};
