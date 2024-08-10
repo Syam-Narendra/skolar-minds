@@ -1,4 +1,4 @@
-import type { LoaderFunction, MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 import { MdPeople } from "react-icons/md";
 import { GiTeacher } from "react-icons/gi";
 import {
@@ -7,7 +7,7 @@ import {
   FcMoneyTransfer,
   FcStatistics,
 } from "react-icons/fc";
-import { Link, Outlet, useLoaderData, useLocation } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 import "../components/css/dashboard.css";
 
 import { Button } from "~/components/ui/button";
@@ -19,14 +19,8 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 
-import {
-  SettingsIcon,
-  DownIcon,
-  LogoutIcon,
-  HomeIcon,
-} from "../customComponents/icons";
+import { SettingsIcon, LogoutIcon, HomeIcon } from "../customComponents/icons";
 import { FaSchool } from "react-icons/fa";
-import { checkCookie } from "~/server/authentication";
 import { useEffect, useState } from "react";
 
 import {
@@ -41,8 +35,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -118,7 +110,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
     Cookies.remove("token");
     window.location.reload();
   };
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
 
   const getHomeData = async () => {
     const userToken = Cookies.get("token");
@@ -141,7 +133,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen ">
-      <div className="flex justify-end w-full items-center bg-stone-950 pr-4">
+      <div className="flex justify-end w-full items-center pr-4">
         <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center justify-center pr-4">
             <SettingsIcon />
@@ -149,9 +141,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
           <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="hover:bg-slate-700">
-              Profile
-            </DropdownMenuItem>
+            <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Billing</DropdownMenuItem>
 
             <Dialog>
@@ -166,12 +156,18 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
                   <Label>Theme</Label>
                   <Select onValueChange={(value: Theme) => setTheme(value)}>
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Theme" />
+                      <SelectValue placeholder="Select a theme" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="light">Light</SelectItem>
-                      <SelectItem value="dark">Dark</SelectItem>
-                      <SelectItem value="system">System</SelectItem>
+                      <SelectItem disabled={theme === "light"} value="light">
+                        Light
+                      </SelectItem>
+                      <SelectItem disabled={theme === "dark"} value="dark">
+                        Dark
+                      </SelectItem>
+                      <SelectItem disabled={theme === "system"} value="system">
+                        System
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -189,7 +185,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
         />
       </div>
       <div className="flex flex-row relative max-h-screen">
-        <aside className="flex flex-col left-0 top-0 h-screen w-56 bg-black border-r border-gray-500 text-white p-4 fixed">
+        <aside className="flex flex-col left-0 top-0 h-screen w-56 p-4 fixed">
           <div className="flex mb-4 space-x-1">
             <img
               alt="Company Logo"
@@ -211,7 +207,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className={`${activeBg} hover:underline w-full flex items-center space-x-2 nav-item py-2 px-2 rounded-[0.5rem] text-white`}
+                  className={`hover:underline w-full flex items-center space-x-2 nav-item py-2 px-2 rounded-[0.5rem]`}
                 >
                   {item.icon}
                   <span className="text-sm font-semibold">{item.label}</span>
@@ -230,9 +226,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
               <PopoverContent className="w-80">
                 <div className="grid gap-4">
                   <div className="space-y-2">
-                    <h4 className="font-medium leading-none">
-                      Confirm Logout
-                    </h4>
+                    <h4 className="font-medium leading-none">Confirm Logout</h4>
                     <p className="text-sm text-muted-foreground">
                       Are you sure you want to logout?
                     </p>
@@ -248,7 +242,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
           </div>
         </aside>
 
-        <div className="ml-52 w-full h-fit min-h-screen p-4 staff-dashboard bg-black">
+        <div className="ml-52 w-full h-fit min-h-screen p-4 staff-dashboard">
           {children}
         </div>
       </div>

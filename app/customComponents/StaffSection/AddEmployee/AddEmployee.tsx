@@ -39,13 +39,13 @@ export const AddEmployee = () => {
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row m-5 p-2 bg-stone-950 rounded-[0.5rem] bg-272727">
+      <div className="flex flex-col md:flex-row m-5 p-2 rounded-[0.5rem] bg-272727">
         {tabOptions.map((each) => (
           <div
             key={each.value}
-            className={`${
-              activeForm === each.value && "bg-black text-white"
-            } w-full md:w-1/3 p-2 text-gray-400 font-bold rounded-[0.5rem] text-center`}
+            className="w-full md:w-1/3 p-2 font-bold rounded-[0.5rem] text-center"
+            // ${
+            // activeForm === each.value && "bg-black text-white" }
           >
             {each.name}
           </div>

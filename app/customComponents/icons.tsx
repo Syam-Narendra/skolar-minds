@@ -1,4 +1,3 @@
-import React from "react";
 
 export const SettingsIcon = () => (
   <svg
@@ -6,7 +5,7 @@ export const SettingsIcon = () => (
     fill="none"
     viewBox="0 0 24 24"
     strokeWidth="1.5"
-    stroke="white"
+    stroke="currentColor"
     className="w-5 h-5 m-2"
   >
     <path
@@ -22,28 +21,6 @@ export const SettingsIcon = () => (
   </svg>
 );
 
-export const DownIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 48 48"
-    height="48"
-    width="48"
-    id="Arrow-Down-3--Streamline-Plump"
-    className="w-3 m-2 h-3"
-  >
-    <g id="arrow-down-3--arrow-down-keyboard">
-      <path
-        id="Vector 134 (Stroke)"
-        fill="white"
-        fillRule="evenodd"
-        d="M24.3618 25.0332C24.1615 25.2117 23.8603 25.2119 23.6598 25.0337C22.1714 23.7108 16.1102 18.3175 8.5013 11.4709C7.3348 10.4212 5.7645 9.8002 4.3634 10.507C3.7431 10.82 3.0524 11.2798 2.3618 11.955C1.5579 12.7411 1.0527 13.5269 0.7352 14.2043C0.1654 15.42 0.6146 16.7742 1.442 17.8314C7.2087 25.1997 15.4738 32.4747 20.2367 36.4249C22.4389 38.2514 25.5836 38.2518 27.7858 36.4255C32.5498 32.475 40.8145 25.1986 46.5631 17.8291C47.3864 16.7737 47.8328 15.4234 47.2661 14.2108C46.9488 13.5319 46.4429 12.7435 45.6365 11.9551C44.9463 11.2803 44.2562 10.8206 43.6362 10.5076C42.2347 9.7998 40.6635 10.4208 39.4965 11.4712C31.8914 18.3166 25.8466 23.7094 24.3618 25.0332Z"
-        clipRule="evenodd"
-        strokeWidth="0.5"
-      ></path>
-    </g>
-  </svg>
-);
 
 export const LogoutIcon = () => (
   <svg

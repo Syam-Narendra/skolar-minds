@@ -48,7 +48,7 @@ export default function Staff() {
               <button
                 onClick={() => setEmployeeCategory(each)}
                 key={index}
-                className={`${activeButton}  items-center content-center w-52 h-24 bg-[#272727] rounded-2xl p-4 m-2`}
+                className={`items-center content-center w-52 h-24 rounded-2xl p-4 m-2`}
               >
                 <h2 className="flex justify-around items-center text-lg text-center font-semibold">
                   {each.category}
@@ -57,7 +57,7 @@ export default function Staff() {
             );
           })}
         </div>
-        <h1 className="text-white">{employeeCategory.component}</h1>
+        <h1>{employeeCategory.component}</h1>
       </div>
     </Dashboard>
   );

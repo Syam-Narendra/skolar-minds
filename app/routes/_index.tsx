@@ -9,7 +9,7 @@ const Home = () => {
   const loader = useLoaderData();
   return (
     <Dashboard>
-      <div className="text-white">Home</div>
+      <div>Home</div>
     </Dashboard>
   );
 };

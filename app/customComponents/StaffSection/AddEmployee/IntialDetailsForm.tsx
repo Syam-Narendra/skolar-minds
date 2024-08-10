@@ -24,6 +24,8 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { useState } from "react";
+import { PersonalDetailsForm } from "./PersonalDetailsForm";
+import { CommunicationDetailsForm } from "./CommunicationDetailsForm";
 type Inputs = {
   employeeName: string;
   mobileNumber: number;
@@ -91,7 +93,7 @@ export const IntialDetailsForm = ({
               <SelectItem
                 key={each}
                 value={each}
-                className="text-white bg-black"
+                // className="text-white bg-black"
               >
                 {each}
               </SelectItem>
@@ -105,7 +107,7 @@ export const IntialDetailsForm = ({
               <SelectItem
                 key={each}
                 value={each}
-                className="bg-black text-white"
+                // className="bg-black text-white"
               >
                 {each}
               </SelectItem>
@@ -139,11 +141,11 @@ export const IntialDetailsForm = ({
 
           <div className="w-full md:w-1/3 px-2">
             <Select onValueChange={(value) => setValue("employeeType", value)}>
-              <SelectTrigger className="bg-black text-[#9CA3AF] border-slate-600 ">
+              <SelectTrigger className="">
                 <SelectValue placeholder="Select Employee Type" />
               </SelectTrigger>
               <SelectContent
-                className="bg-black text-white "
+                // className="bg-black text-white "
                 {...register("employeeType", { required: true })}
               >
                 <SelectGroup>
@@ -161,12 +163,12 @@ export const IntialDetailsForm = ({
 
           <div className="w-full md:w-1/3 px-2 ">
             <Select onValueChange={(value) => setValue("employeeRole", value)}>
-              <SelectTrigger className="bg-black text-[#9CA3AF] border-slate-600 ">
+              <SelectTrigger className="">
                 <SelectValue placeholder="Select Employee Role" />
               </SelectTrigger>
               <SelectContent
                 {...register("employeeRole", { required: true })}
-                className="bg-black text-white "
+                // className="bg-black text-white "
               >
                 <SelectGroup>
                   {Object.values(employeeSpecializationTypes).map((each) => (
@@ -188,12 +190,12 @@ export const IntialDetailsForm = ({
             <Select
               onValueChange={(value) => setValue("employeeDesignation", value)}
             >
-              <SelectTrigger className="bg-black text-[#9CA3AF] border-slate-600 ">
+              <SelectTrigger>
                 <SelectValue placeholder="Select Employee Designation" />
               </SelectTrigger>
               <SelectContent
                 {...register("employeeDesignation", { required: true })}
-                className="bg-black text-white "
+                className="border border-slate-600"
               >
                 <SelectGroup>
                   <EmployeeSpecializationForm />
@@ -248,7 +250,7 @@ export const IntialDetailsForm = ({
           </div> */}
           <div className="w-full md:w-1/3 px-2 ">
             <input
-              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              className="border border-slate-600 rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Salary"
               type="number"
               {...register("salary", { required: true, minLength: 1 })}

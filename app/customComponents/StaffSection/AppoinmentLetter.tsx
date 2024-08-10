@@ -1,3 +1,3 @@
 export const AppointmentLetter = () => (
-  <h1 className="text-white"> AppointmentLetter</h1>
+  <h1> AppointmentLetter</h1>
 );

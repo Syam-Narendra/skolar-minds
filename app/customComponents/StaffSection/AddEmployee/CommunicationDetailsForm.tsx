@@ -27,11 +27,11 @@ export const CommunicationDetailsForm = () => {
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex space-y-3 flex-wrap">
           <div className="w-full mt-3 md:w-1/3 px-2">
-            <p className="mb-1 text-sm text-[#38BDF8]">
+            <p className="mb-1 text-sm">
               Emergency Contact Details
             </p>
             <input
-              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              className="border border-slate-600 rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Emergency Contact Name"
               {...register("emergencyContactName", { required: true })}
             />
@@ -40,9 +40,8 @@ export const CommunicationDetailsForm = () => {
             )}
           </div>
           <div className="w-full mt-3 md:w-1/3 px-2">
-            <p className="mb-1 text-sm text-black">g</p>
             <input
-              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              className="border border-slate-600 rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Emergency Contact Number"
               {...register("emergencyContactNumber", { required: true })}
             />
@@ -51,13 +50,13 @@ export const CommunicationDetailsForm = () => {
             )}
           </div>
 
-          <p className="mb-1 w-full px-2 text-sm text-[#38BDF8]">
+          <p className="mb-1 w-full px-2 text-sm">
             Communication Details
           </p>
 
           <div className="w-full mt-3 md:w-1/3 px-2">
             <input
-              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              className="border border-slate-600 rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Door No."
               {...register("doorNumber", { required: true })}
             />
@@ -67,7 +66,7 @@ export const CommunicationDetailsForm = () => {
           </div>
           <div className="w-full mt-3 md:w-1/3 px-2">
             <input
-              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              className="border border-slate-600 rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Street Name"
               {...register("streetName", {
                 required: true,
@@ -79,7 +78,7 @@ export const CommunicationDetailsForm = () => {
           </div>
           <div className="w-full mt-3 md:w-1/3 px-2">
             <input
-              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              className="border border-slate-600 rounded-md p-2 w-full bg-transparent  focus:outline-none"
               placeholder="Pincode"
               {...register("pincode", {
                 required: true,

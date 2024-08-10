@@ -61,12 +61,12 @@ export const PersonalDetailsForm = ({
 
   return (
     <div id="personalDetailsForm">
-      <h1 className="text-white px-2">Add Personal Details</h1>
+      <h1 className="px-2">Add Personal Details</h1>
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex space-y-3 flex-wrap">
           <div className="w-full mt-3 md:w-1/3 px-2">
             <input
-              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              className="border rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Parent/Spouse Name"
               {...register("parentName", { required: true })}
             />
@@ -77,11 +77,11 @@ export const PersonalDetailsForm = ({
 
           <div className="w-full md:w-1/3 px-2">
             <Select onValueChange={(value) => setValue("nationality", value)}>
-              <SelectTrigger className="bg-black text-[#9CA3AF] border-slate-600 ">
+              <SelectTrigger>
                 <SelectValue placeholder="Nationality" />
               </SelectTrigger>
               <SelectContent
-                className="bg-black text-white "
+                // className="bg-black text-white "
                 {...register("nationality", { required: true })}
               >
                 <SelectGroup>
@@ -97,12 +97,12 @@ export const PersonalDetailsForm = ({
 
           <div className="w-full md:w-1/3 px-2">
             <Select onValueChange={(value) => setValue("gender", value)}>
-              <SelectTrigger className="bg-black text-[#9CA3AF] border-slate-600 ">
+              <SelectTrigger>
                 <SelectValue placeholder="Select Employee Gender" />
               </SelectTrigger>
               <SelectContent
                 {...register("gender", { required: true })}
-                className="bg-black text-white "
+                // className="bg-black text-white"
               >
                 <SelectGroup>
                   <SelectItem value="Male">Male</SelectItem>
@@ -116,12 +116,12 @@ export const PersonalDetailsForm = ({
           </div>
           <div className="w-full md:w-1/3 px-2 ">
             <Select onValueChange={(value) => setValue("idType", value)}>
-              <SelectTrigger className="bg-black text-[#9CA3AF] border-slate-600 ">
+              <SelectTrigger>
                 <SelectValue placeholder="Id Type" />
               </SelectTrigger>
               <SelectContent
                 {...register("idType", { required: true })}
-                className="bg-black text-white "
+                // className="bg-black text-white"
               >
                 <SelectGroup>
                   {Object.values(iDCards).map((each) => (
@@ -140,7 +140,7 @@ export const PersonalDetailsForm = ({
 
           <div className="w-full md:w-1/3 px-2">
             <Popover>
-              <PopoverTrigger className="bg-black  hover:bg-black" asChild>
+              <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
@@ -148,7 +148,7 @@ export const PersonalDetailsForm = ({
                     !date && "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-4 w-4 text-white" />
+                  <CalendarIcon className="mr-2 h-4 w-4" />
                   {date ? (
                     format(date, "PPP")
                   ) : (
@@ -162,18 +162,18 @@ export const PersonalDetailsForm = ({
                   selected={date}
                   onSelect={setDate}
                   initialFocus
-                  className="bg-black text-white"
+                  // className="bg-black text-white"
                 />
               </PopoverContent>
             </Popover>
           </div>
           <div className="w-full md:w-1/3 px-2">
             <Select onValueChange={(value) => setValue("bloodGroup", value)}>
-              <SelectTrigger className="bg-black text-[#9CA3AF] border-slate-600 ">
+              <SelectTrigger>
                 <SelectValue placeholder="Blood Group" />
               </SelectTrigger>
               <SelectContent
-                className="bg-black text-white "
+                // className="bg-black text-white "
                 {...register("bloodGroup", { required: true })}
               >
                 <SelectGroup>
@@ -194,7 +194,7 @@ export const PersonalDetailsForm = ({
           </div>
           <div className="w-full mt-3 md:w-1/3 px-2">
             <input
-              className="border border-slate-600 rounded-md p-2 w-full bg-transparent text-white focus:outline-none"
+              className="border rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Enter Email"
               {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
             />
