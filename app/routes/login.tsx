@@ -9,7 +9,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (userToken) {
     const cookies = new URLSearchParams(userToken);
     const myCookie = cookies.get("token");
-    if (myCookie !== undefined && myCookie !== "undefined") {
+    if (myCookie !== undefined) {
       return redirect("/");
     }
   }
@@ -17,7 +17,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 const SigninPage = () => {
-  const redirection = useLoaderData();
+  const loader = useLoaderData();
   const navigate = useNavigate();
   const {
     register,

@@ -28,6 +28,35 @@ import {
 import { FaSchool } from "react-icons/fa";
 import { checkCookie } from "~/server/authentication";
 import { useEffect, useState } from "react";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
+import { Label } from "~/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+import { Theme, useTheme } from "~/components/theme-provider";
+
 export const meta: MetaFunction = () => {
   return [
     { title: "Skolar Minds" },
@@ -78,7 +107,6 @@ const DashboardNavItems = [
   },
 ];
 
-
 export default function Dashboard({ children }: { children: React.ReactNode }) {
   const activePath = useLocation().pathname;
   const [homeData, setHomeData] = useState({
@@ -90,6 +118,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
     Cookies.remove("token");
     window.location.reload();
   };
+  const { setTheme } = useTheme();
 
   const getHomeData = async () => {
     const userToken = Cookies.get("token");
@@ -112,14 +141,52 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen ">
-      <div className="flex justify-end w-full items-center bg-stone-950">
-        <SettingsIcon />
+      <div className="flex justify-end w-full items-center bg-stone-950 pr-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger className="flex items-center justify-center pr-4">
+            <SettingsIcon />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="hover:bg-slate-700">
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem>Billing</DropdownMenuItem>
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <Label>Settings</Label>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Settings</DialogTitle>
+                </DialogHeader>
+                <div className="flex justify-between content-center align-middle">
+                  <Label>Theme</Label>
+                  <Select onValueChange={(value: Theme) => setTheme(value)}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Theme" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="light">Light</SelectItem>
+                      <SelectItem value="dark">Dark</SelectItem>
+                      <SelectItem value="system">System</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuItem>Subscription</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <img
           src="https://i.ibb.co/YcqQrJQ/Png-Item-4042710.png"
           alt="Profile"
           className="rounded-full w-8 h-8 m-2"
         />
-        <DownIcon />
       </div>
       <div className="flex flex-row relative max-h-screen">
         <aside className="flex flex-col left-0 top-0 h-screen w-56 bg-black border-r border-gray-500 text-white p-4 fixed">
@@ -160,10 +227,10 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
                   <LogoutIcon />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-80 bg-black">
+              <PopoverContent className="w-80">
                 <div className="grid gap-4">
                   <div className="space-y-2">
-                    <h4 className="font-medium leading-none text-white">
+                    <h4 className="font-medium leading-none">
                       Confirm Logout
                     </h4>
                     <p className="text-sm text-muted-foreground">
