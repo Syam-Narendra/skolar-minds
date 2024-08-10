@@ -156,7 +156,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
                   <Label>Theme</Label>
                   <Select onValueChange={(value: Theme) => setTheme(value)}>
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select a theme" />
+                      <SelectValue placeholder={theme} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem disabled={theme === "light"} value="light">
