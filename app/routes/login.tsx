@@ -141,7 +141,7 @@ const SigninPage = () => {
                 required: "Password is required",
                 
               })}
-              type="passsword"
+              type="password"
               className="p-2 rounded-lg bg-transparent border-2 border-[#70707B] text-white focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:border-transparent"
             />
             {errors.loginPassword && (

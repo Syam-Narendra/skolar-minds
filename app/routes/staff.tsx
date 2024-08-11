@@ -1,12 +1,15 @@
 import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { useState } from "react";
 import Dashboard from "~/customComponents/Dashboard";
 import { checkCookie } from "~/server/authentication";
-import { AddEmployee } from "~/customComponents/StaffSection/AddEmployee/AddEmployee";
+import { CombinedForm } from "~/customComponents/StaffSection/AddEmployee/AddEmployee";
 import { AllEmployees } from "~/customComponents/StaffSection/AllEmployees";
 import { AppointmentLetter } from "~/customComponents/StaffSection/AppoinmentLetter";
 import { EmployeeIdCard } from "~/customComponents/StaffSection/EmployeeIdCard";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { useState } from "react";
+
 const employeeCategoryList = [
   {
     category: "All Employees",
@@ -14,7 +17,7 @@ const employeeCategoryList = [
   },
   {
     category: "Add Employee",
-    component: <AddEmployee />,
+    component: <CombinedForm />,
   },
   {
     category: "Employee ID Card",
@@ -31,33 +34,36 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Staff() {
-  const loader = useLoaderData();
-  const [employeeCategory, setEmployeeCategory] = useState(
-    employeeCategoryList[0]
-  );
+  const loaderData = useLoaderData<typeof loader>();
+  const [activeTab, setActiveTab] = useState(employeeCategoryList[0].category);
+
   return (
     <Dashboard>
-      <div className="flex flex-col flex-wrap justify-around items-center">
-        <div className="items-center flex flex-wrap">
-          {employeeCategoryList.map((each, index) => {
-            const activeButton =
-              employeeCategory.category === each.category
-                ? "bg-black text-white border border-[#9CA3AF]"
-                : "bg-[#0C0A09] text-[#9CA3AF]";
-            return (
-              <button
-                onClick={() => setEmployeeCategory(each)}
-                key={index}
-                className={`items-center content-center w-52 h-24 rounded-2xl p-4 m-2`}
-              >
-                <h2 className="flex justify-around items-center text-lg text-center font-semibold">
-                  {each.category}
-                </h2>
-              </button>
-            );
-          })}
+      <div className="w-full flex flex-col">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {employeeCategoryList.map((each) => (
+            <button
+              key={each.category}
+              onClick={() => setActiveTab(each.category)}
+              className={`py-2 px-4 text-center focus:outline-none ${
+                activeTab === each.category
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-100 text-gray-700"
+              }`}
+            >
+              {each.category}
+            </button>
+          ))}
         </div>
-        <h1>{employeeCategory.component}</h1>
+
+        <div className="mt-4">
+          {employeeCategoryList.map(
+            (each) =>
+              activeTab === each.category && (
+                <div key={each.category}>{each.component}</div>
+              )
+          )}
+        </div>
       </div>
     </Dashboard>
   );

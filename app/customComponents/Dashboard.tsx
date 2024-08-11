@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import { MdPeople } from "react-icons/md";
 import { GiTeacher } from "react-icons/gi";
@@ -21,7 +22,6 @@ import {
 
 import { SettingsIcon, LogoutIcon, HomeIcon } from "../customComponents/icons";
 import { FaSchool } from "react-icons/fa";
-import { useEffect, useState } from "react";
 
 import {
   DropdownMenu,
@@ -111,6 +111,11 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
     window.location.reload();
   };
   const { setTheme, theme } = useTheme();
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
 
   const getHomeData = async () => {
     const userToken = Cookies.get("token");
@@ -132,60 +137,72 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="min-h-screen ">
-      <div className="flex justify-end w-full items-center pr-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center justify-center pr-4">
-            <SettingsIcon />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
+    <div className="min-h-screen">
+      <div className="flex justify-between w-full items-center lg:float-right pr-4 lg:w-fit">
+        <Button variant="ghost" onClick={toggleSidebar} className="lg:hidden">
+          Menu
+        </Button>
+        <div className="flex">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center justify-center pr-4">
+              <SettingsIcon />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Billing</DropdownMenuItem>
 
-            <Dialog>
-              <DialogTrigger asChild>
-                <Label>Settings</Label>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Settings</DialogTitle>
-                </DialogHeader>
-                <div className="flex justify-between content-center align-middle">
-                  <Label>Theme</Label>
-                  <Select onValueChange={(value: Theme) => setTheme(value)}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder={theme} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem disabled={theme === "light"} value="light">
-                        Light
-                      </SelectItem>
-                      <SelectItem disabled={theme === "dark"} value="dark">
-                        Dark
-                      </SelectItem>
-                      <SelectItem disabled={theme === "system"} value="system">
-                        System
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </DialogContent>
-            </Dialog>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Label>Settings</Label>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Settings</DialogTitle>
+                  </DialogHeader>
+                  <div className="flex justify-between content-center align-middle">
+                    <Label>Theme</Label>
+                    <Select onValueChange={(value: Theme) => setTheme(value)}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder={theme} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem disabled={theme === "light"} value="light">
+                          Light
+                        </SelectItem>
+                        <SelectItem disabled={theme === "dark"} value="dark">
+                          Dark
+                        </SelectItem>
+                        <SelectItem
+                          disabled={theme === "system"}
+                          value="system"
+                        >
+                          System
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </DialogContent>
+              </Dialog>
 
-            <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuItem>Subscription</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <img
-          src="https://i.ibb.co/YcqQrJQ/Png-Item-4042710.png"
-          alt="Profile"
-          className="rounded-full w-8 h-8 m-2"
-        />
+              <DropdownMenuItem>Team</DropdownMenuItem>
+              <DropdownMenuItem>Subscription</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <img
+            src="https://i.ibb.co/YcqQrJQ/Png-Item-4042710.png"
+            alt="Profile"
+            className="rounded-full w-8 h-8 m-2"
+          />
+        </div>
       </div>
       <div className="flex flex-row relative max-h-screen">
-        <aside className="flex flex-col left-0 top-0 h-screen w-56 p-4 fixed">
+        <aside
+          className={`${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0 lg:static fixed left-0 top-0 h-screen w-56 p-4 bg-[#F5F5F5] dark:bg-black  lg:top-0 transform transition-transform duration-300 ease-in-out z-50`}
+        >
           <div className="flex mb-4 space-x-1">
             <img
               alt="Company Logo"
@@ -200,22 +217,18 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
             <h1 className="text-lg font-medium">{homeData.school_name}</h1>
           </div>
           <nav className="space-y-2">
-            {DashboardNavItems.map((item) => {
-              const activeBg =
-                activePath === item.to ? "bg-[#272727]" : "bg-black";
-              return (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className={`hover:underline w-full flex items-center space-x-2 nav-item py-2 px-2 rounded-[0.5rem]`}
-                >
-                  {item.icon}
-                  <span className="text-sm font-semibold">{item.label}</span>
-                </Link>
-              );
-            })}
+            {DashboardNavItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className={`hover:underline w-full flex items-center space-x-2 nav-item py-2 px-2 rounded-[0.5rem]`}
+              >
+                {item.icon}
+                <span className="text-sm font-semibold">{item.label}</span>
+              </Link>
+            ))}
           </nav>
-          <div className="flex mt-auto items-center justify-between ">
+          <div className="flex absolute items-center justify-between bottom-0">
             <p>Logout</p>
             <Popover>
               <PopoverTrigger asChild>
@@ -242,7 +255,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
           </div>
         </aside>
 
-        <div className="ml-52 w-full h-fit min-h-screen p-4 staff-dashboard">
+        <div className="ml-0 w-full h-fit min-h-screen p-4">
           {children}
         </div>
       </div>
