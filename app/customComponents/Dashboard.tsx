@@ -138,17 +138,78 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
   const activeTab = useLocation().pathname;
 
   return (
-    <div className="min-h-screen">
-      <div className="flex justify-between w-full items-center lg:float-right pr-4 lg:w-fit">
-        <Button variant="ghost" onClick={toggleSidebar} className="lg:hidden">
-          Menu
-        </Button>
-        <div className="flex">
+    <div className="min-h-screen flex">
+      <aside
+        className={`fixed left-0 top-0 h-screen w-56 p-4 bg-[#F5F5F5] dark:bg-black z-50 transform transition-transform duration-300 ease-in-out ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0`}
+      >
+        <div className="flex mb-4 space-x-1">
+          <img
+            alt="Company Logo"
+            height="30"
+            src="https://i.ibb.co/vh22hY4/education.png"
+            style={{
+              aspectRatio: "30/30",
+              objectFit: "cover",
+            }}
+            width="30"
+          />
+          <h1 className="text-lg font-medium">{homeData.school_name}</h1>
+        </div>
+        <nav className="space-y-2">
+          {DashboardNavItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className={`hover:underline w-full flex ${
+                activeTab === item.to && "text-[#48BDF5]"
+              } items-center space-x-2 nav-item py-2 px-2 rounded-[0.5rem]`}
+            >
+              {item.icon}
+              <span className="text-sm font-semibold">{item.label}</span>
+            </Link>
+          ))}
+        </nav>
+        <div className="absolute bottom-0 left-0 w-full p-4">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="ghost"
+                className="w-full flex items-center justify-between"
+              >
+                <span>Logout</span>
+                <LogoutIcon />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <div className="grid gap-4">
+                <div className="space-y-2">
+                  <h4 className="font-medium leading-none">Confirm Logout</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Are you sure you want to logout?
+                  </p>
+                </div>
+                <div className="flex justify-end">
+                  <Button onClick={confirmLogout} variant="destructive">
+                    Logout
+                  </Button>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
+      </aside>
+      <div className="flex-1 flex flex-col" style={{ marginLeft: "14rem" }}>
+        <div className="fixed top-0 left-56 right-0 h-14 bg-white dark:bg-black z-40 flex items-center justify-end p-4 shadow-md">
+          <Button variant="ghost" onClick={toggleSidebar} className="lg:hidden">
+            Menu
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center justify-center pr-4">
               <SettingsIcon />
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="z-50">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Profile</DropdownMenuItem>
@@ -197,68 +258,8 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
             className="rounded-full w-8 h-8 m-2"
           />
         </div>
-      </div>
-      <div className="flex flex-row relative max-h-screen">
-        <aside
-          className={`${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 lg:static fixed left-0 top-0 h-screen w-56 p-4 bg-[#F5F5F5] dark:bg-black  lg:top-0 transform transition-transform duration-300 ease-in-out z-50`}
-        >
-          <div className="flex mb-4 space-x-1">
-            <img
-              alt="Company Logo"
-              height="30"
-              src="https://i.ibb.co/vh22hY4/education.png"
-              style={{
-                aspectRatio: "30/30",
-                objectFit: "cover",
-              }}
-              width="30"
-            />
-            <h1 className="text-lg font-medium">{homeData.school_name}</h1>
-          </div>
-          <nav className="space-y-2">
-            {DashboardNavItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={`hover:underline w-full flex ${
-                  activeTab === item.to && "text-[#48BDF5]"
-                } items-center space-x-2 nav-item py-2 px-2 rounded-[0.5rem]`}
-              >
-                {item.icon}
-                <span className="text-sm font-semibold">{item.label}</span>
-              </Link>
-            ))}
-          </nav>
-          <div className="flex absolute items-center justify-between bottom-0">
-            <p>Logout</p>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="ghost">
-                  <LogoutIcon />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80">
-                <div className="grid gap-4">
-                  <div className="space-y-2">
-                    <h4 className="font-medium leading-none">Confirm Logout</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Are you sure you want to logout?
-                    </p>
-                  </div>
-                  <div className="flex justify-end">
-                    <Button onClick={confirmLogout} variant="destructive">
-                      Logout
-                    </Button>
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover>
-          </div>
-        </aside>
 
-        <div className="ml-0 w-full h-fit min-h-screen p-4">{children}</div>
+        <div className="mt-16 p-4 overflow-y-auto h-fit">{children}</div>
       </div>
     </div>
   );

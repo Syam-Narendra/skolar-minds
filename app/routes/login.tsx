@@ -9,7 +9,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (userToken) {
     const cookies = new URLSearchParams(userToken);
     const myCookie = cookies.get("token");
-    console.log("myCookie", myCookie);
+    // console.log("myCookie", myCookie);
     if (myCookie !== undefined) {
       return redirect("/");
     }
@@ -51,7 +51,7 @@ const SigninPage = () => {
         message: string;
         token: string;
       };
-      console.log(result);
+      // console.log(result);
       setLoading(false);
       if (response.status === 202) {
         setResponseError({
