@@ -53,7 +53,7 @@ const StudentForm: React.FC = () => {
     const userToken = Cookies.get("token");
     console.log(formValues);
     const { data } = await axios.post(
-      "http://localhost:3000/api/create-student",
+      "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/create-student",
       formValues,
       {
         headers: {
@@ -70,7 +70,7 @@ const StudentForm: React.FC = () => {
     const userToken = Cookies.get("token");
     console.log(userToken);
     const { data, status } = await axios.get(
-      "http://localhost:3000/api/get-all-employees",
+      "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-all-employees",
       {
         headers: {
           "Content-Type": "application/json",

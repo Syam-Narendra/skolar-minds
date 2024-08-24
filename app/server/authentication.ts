@@ -7,7 +7,7 @@ export async function checkCookie({ request }: { request: Request }) {
     const myCookie = cookies.get("token");
     // console.log(myCookie !== "undefined");
     const cookieRes = await fetch(
-      "http://localhost:3000/api/validate-token",
+      "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/validate-token",
       {
         headers: {
           Authorization: `Bearer ${myCookie}`,

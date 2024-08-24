@@ -91,7 +91,7 @@ export const CombinedForm = () => {
     console.log(formData);
     const userToken = Cookies.get("token");
     const { data, status } = await axios.post(
-      "http://localhost:3000/api/create-employee",
+      "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/create-employee",
       formData,
       {
         headers: {
