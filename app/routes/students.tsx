@@ -1,37 +1,45 @@
-import {
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableBody,
-  Table,
-} from "~/components/ui/table";
+import { useState } from "react";
 import Dashboard from "~/customComponents/Dashboard";
-import { TableItem } from "~/customComponents/tableItem";
+import StudentForm from "~/customComponents/StudentSection/AddNewStudent";
+import { AllStudents } from "~/customComponents/StudentSection/AllStudents";
+
+const studentCategoryList = [
+  {
+    category: "All Students",
+    component: <AllStudents/>,
+  },
+  {
+    category: "Add Student",
+    component: <StudentForm/>,
+  },
+];
 
 export default function Students() {
+  const [activeTab, setActiveTab] = useState(studentCategoryList[0]);
+
   return (
     <Dashboard>
-      <main className="flex-grow  p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-lg font-medium">Students</h1>
+      <div className="w-full flex flex-col">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {studentCategoryList.map((each) => (
+            <button
+              key={each.category}
+              onClick={() => setActiveTab(each)}
+              className={`py-2 px-4 text-center focus:outline-none ${
+                activeTab.category === each.category
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-100 text-gray-700"
+              }`}
+            >
+              {each.category}
+            </button>
+          ))}
         </div>
-        <Table className="text-left min-w-full">
-          <TableHeader className="text-gray-400 font-mono">
-            <TableRow>
-              <TableHead>Student Name</TableHead>
-              <TableHead>Father Name</TableHead>
-              <TableHead>Class & Sec</TableHead>
-              <TableHead className="text-right">Remaining Fee</TableHead>
-              <TableHead />
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableItem />
-            <TableItem />
-            <TableItem />
-          </TableBody>
-        </Table>
-      </main>
+
+        <div className="mt-4">
+          <div key={activeTab.category}>{activeTab.component}</div>
+        </div>
+      </div>
     </Dashboard>
   );
 }

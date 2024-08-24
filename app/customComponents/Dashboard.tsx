@@ -100,7 +100,6 @@ const DashboardNavItems = [
 ];
 
 export default function Dashboard({ children }: { children: React.ReactNode }) {
-  const activePath = useLocation().pathname;
   const [homeData, setHomeData] = useState({
     name: "",
     school_name: "",
@@ -135,6 +134,8 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     getHomeData();
   }, []);
+
+  const activeTab = useLocation().pathname;
 
   return (
     <div className="min-h-screen">
@@ -221,7 +222,9 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
               <Link
                 key={item.to}
                 to={item.to}
-                className={`hover:underline w-full flex items-center space-x-2 nav-item py-2 px-2 rounded-[0.5rem]`}
+                className={`hover:underline w-full flex ${
+                  activeTab === item.to && "text-[#48BDF5]"
+                } items-center space-x-2 nav-item py-2 px-2 rounded-[0.5rem]`}
               >
                 {item.icon}
                 <span className="text-sm font-semibold">{item.label}</span>
@@ -255,9 +258,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
           </div>
         </aside>
 
-        <div className="ml-0 w-full h-fit min-h-screen p-4">
-          {children}
-        </div>
+        <div className="ml-0 w-full h-fit min-h-screen p-4">{children}</div>
       </div>
     </div>
   );

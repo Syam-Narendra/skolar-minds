@@ -9,6 +9,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (userToken) {
     const cookies = new URLSearchParams(userToken);
     const myCookie = cookies.get("token");
+    console.log("myCookie", myCookie);
     if (myCookie !== undefined) {
       return redirect("/");
     }
@@ -37,7 +38,7 @@ const SigninPage = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/login",
+        "http://localhost:3000/api/login",
         {
           method: "POST",
           headers: {

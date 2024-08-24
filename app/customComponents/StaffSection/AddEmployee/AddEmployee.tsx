@@ -1,8 +1,8 @@
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { format } from "date-fns";
+import Cookies from "js-cookie";
 
-import { formTypes, setEmployeeObject } from "./globalVariables";
 import {
   Select,
   SelectContent,
@@ -19,8 +19,22 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { cn } from "~/lib/utils";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alert-dialog";
+
+import { cn } from "~/lib/utils";
+import { Loader2 } from "lucide-react";
+import axios from "axios";
 type Inputs = {
   employeeName: string;
   mobileNumber: number;
@@ -58,20 +72,40 @@ const iDCards = {
 };
 
 export const CombinedForm = () => {
+  const [isloadingButton, setLoadingButton] = useState(false);
+  const dailogRef = useRef<HTMLButtonElement>(null);
   const {
     register,
     handleSubmit,
     watch,
-    control,
     formState: { errors },
     setValue,
     clearErrors,
+    reset,
   } = useForm<Inputs>();
   const watchedValues = watch();
   const [date, setDate] = useState<Date>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    setEmployeeObject(data);
+  const onSubmit: SubmitHandler<Inputs> = async (formData) => {
+    setLoadingButton(true);
+    console.log(formData);
+    const userToken = Cookies.get("token");
+    const { data, status } = await axios.post(
+      "http://localhost:3000/api/create-employee",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + userToken,
+        },
+      }
+    );
+    if (status === 200) {
+      setLoadingButton(false);
+      reset();
+      dailogRef.current?.click();
+    }
+    // console.log(data);
   };
 
   const EmployeeSpecializationForm = () => {
@@ -130,10 +164,10 @@ export const CombinedForm = () => {
         onChange={() => clearErrors()}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex flex-wrap -mx-2 space-y-4 md:space-y-0">
+        <div className="flex flex-wrap mx-2 space-y-4">
           <div className="w-full md:w-1/2 px-2">
             <input
-              className="border border-gray-300 rounded-md p-2 w-full bg-transparent focus:outline-none"
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Employee Name"
               {...register("employeeName", { required: true })}
             />
@@ -144,7 +178,7 @@ export const CombinedForm = () => {
 
           <div className="w-full md:w-1/2 px-2">
             <input
-              className="border border-gray-300 rounded-md p-2 w-full bg-transparent focus:outline-none"
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Mobile Number"
               type="number"
               {...register("mobileNumber", { required: true })}
@@ -167,7 +201,9 @@ export const CombinedForm = () => {
               </SelectContent>
             </Select>
             {errors.employeeType && (
-              <span className="text-red-600">* Please select Employee Type</span>
+              <span className="text-red-600">
+                * Please select Employee Type
+              </span>
             )}
           </div>
 
@@ -187,7 +223,9 @@ export const CombinedForm = () => {
               </SelectContent>
             </Select>
             {errors.employeeRole && (
-              <span className="text-red-600">* Please select Employee Role</span>
+              <span className="text-red-600">
+                * Please select Employee Role
+              </span>
             )}
           </div>
 
@@ -215,14 +253,12 @@ export const CombinedForm = () => {
 
           <div className="w-full md:w-1/2 px-2">
             <input
-              className="border border-gray-300 rounded-md p-2 w-full bg-transparent focus:outline-none"
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Salary"
               type="number"
               {...register("salary", { required: true })}
             />
-            {errors.salary && (
-              <span className="text-red-600">* Required</span>
-            )}
+            {errors.salary && <span className="text-red-600">* Required</span>}
           </div>
 
           <div className="w-full md:w-1/2 px-2">
@@ -256,7 +292,7 @@ export const CombinedForm = () => {
 
           <div className="w-full md:w-1/2 px-2">
             <input
-              className="border border-gray-300 rounded-md p-2 w-full bg-transparent focus:outline-none"
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Parent/Spouse Name"
               {...register("parentName", { required: true })}
             />
@@ -345,19 +381,17 @@ export const CombinedForm = () => {
 
           <div className="w-full md:w-1/2 px-2">
             <input
-              className="border border-gray-300 rounded-md p-2 w-full bg-transparent focus:outline-none"
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Email"
               type="email"
               {...register("email", { required: true })}
             />
-            {errors.email && (
-              <span className="text-red-600">* Required</span>
-            )}
+            {errors.email && <span className="text-red-600">* Required</span>}
           </div>
 
           <div className="w-full md:w-1/2 px-2">
             <input
-              className="border border-gray-300 rounded-md p-2 w-full bg-transparent focus:outline-none"
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Emergency Contact Name"
               {...register("emergencyContactName", { required: true })}
             />
@@ -368,7 +402,7 @@ export const CombinedForm = () => {
 
           <div className="w-full md:w-1/2 px-2">
             <input
-              className="border border-gray-300 rounded-md p-2 w-full bg-transparent focus:outline-none"
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Emergency Contact Number"
               type="number"
               {...register("emergencyContactNumber", { required: true })}
@@ -380,7 +414,7 @@ export const CombinedForm = () => {
 
           <div className="w-full md:w-1/2 px-2">
             <input
-              className="border border-gray-300 rounded-md p-2 w-full bg-transparent focus:outline-none"
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Door Number"
               {...register("doorNumber", { required: true })}
             />
@@ -391,7 +425,7 @@ export const CombinedForm = () => {
 
           <div className="w-full md:w-1/2 px-2">
             <input
-              className="border border-gray-300 rounded-md p-2 w-full bg-transparent focus:outline-none"
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Street Name"
               {...register("streetName", { required: true })}
             />
@@ -402,23 +436,43 @@ export const CombinedForm = () => {
 
           <div className="w-full md:w-1/2 px-2">
             <input
-              className="border border-gray-300 rounded-md p-2 w-full bg-transparent focus:outline-none"
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Pincode"
               type="number"
               {...register("pincode", { required: true })}
             />
-            {errors.pincode && (
-              <span className="text-red-600">* Required</span>
-            )}
+            {errors.pincode && <span className="text-red-600">* Required</span>}
           </div>
         </div>
 
         <div className="w-full px-2">
-          <Button className="w-full" type="submit">
-            Next
+          <Button type="submit" className="min-w-10" disabled={isloadingButton}>
+            {isloadingButton ? (
+              <Loader2 className="mr-2 h-4 w-20 animate-spin" />
+            ) : (
+              "Add Employee"
+            )}
           </Button>
         </div>
       </form>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button className="hidden" ref={dailogRef}>
+            Show Dialog
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Employee Created Successfully</AlertDialogTitle>
+            <AlertDialogDescription>
+              Navigate To All Employees Section To See All Employees
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Done</AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

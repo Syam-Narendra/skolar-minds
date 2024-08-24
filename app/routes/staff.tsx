@@ -7,7 +7,6 @@ import { AllEmployees } from "~/customComponents/StaffSection/AllEmployees";
 import { AppointmentLetter } from "~/customComponents/StaffSection/AppoinmentLetter";
 import { EmployeeIdCard } from "~/customComponents/StaffSection/EmployeeIdCard";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { useState } from "react";
 
 const employeeCategoryList = [
@@ -35,7 +34,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function Staff() {
   const loaderData = useLoaderData<typeof loader>();
-  const [activeTab, setActiveTab] = useState(employeeCategoryList[0].category);
+  const [activeTab, setActiveTab] = useState(employeeCategoryList[0]);
 
   return (
     <Dashboard>
@@ -44,9 +43,9 @@ export default function Staff() {
           {employeeCategoryList.map((each) => (
             <button
               key={each.category}
-              onClick={() => setActiveTab(each.category)}
+              onClick={() => setActiveTab(each)}
               className={`py-2 px-4 text-center focus:outline-none ${
-                activeTab === each.category
+                activeTab.category === each.category
                   ? "bg-blue-500 text-white"
                   : "bg-gray-100 text-gray-700"
               }`}
@@ -57,12 +56,7 @@ export default function Staff() {
         </div>
 
         <div className="mt-4">
-          {employeeCategoryList.map(
-            (each) =>
-              activeTab === each.category && (
-                <div key={each.category}>{each.component}</div>
-              )
-          )}
+          <div key={activeTab.category}>{activeTab.component}</div>
         </div>
       </div>
     </Dashboard>
