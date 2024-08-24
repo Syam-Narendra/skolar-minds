@@ -163,7 +163,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
               key={item.to}
               to={item.to}
               className={`hover:underline w-full flex ${
-                activeTab === item.to && "text-[#48BDF5]"
+                activeTab === item.to && "text-blue-500"
               } items-center space-x-2 nav-item py-2 px-2 rounded-[0.5rem]`}
             >
               {item.icon}
@@ -191,7 +191,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
                   </p>
                 </div>
                 <div className="flex justify-end">
-                  <Button onClick={confirmLogout} variant="destructive">
+                  <Button onClick={confirmLogout} variant="destructive" className="dark:bg-red-500">
                     Logout
                   </Button>
                 </div>
