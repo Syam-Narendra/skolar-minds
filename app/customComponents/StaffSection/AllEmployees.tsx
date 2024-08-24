@@ -39,33 +39,7 @@ export const AllEmployees = () => {
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         {allEmployees.length !==0 && (
           <>
-            {[...Array(20)].map((_, i) => (
-              <div className="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-                <div
-                  className="bg-cover bg-center h-32 p-4"
-                  style={{
-                    backgroundImage: `url('https://as1.ftcdn.net/v2/jpg/02/65/18/30/1000_F_265183061_NkulfPZgRxbNg3rvYSNGGwi0iD7qbmOp.jpg')`,
-                  }}
-                ></div>
-                <div className="p-4">
-                  <h1 className="text-gray-900 font-bold text-2xl mb-2">
-                    {allEmployees[0].employeeName}
-                  </h1>
-                  <p className="text-gray-700 text-base mb-4">
-                    Designation: {allEmployees[0].employeeDesignation}
-                  </p>
-                  <p className="text-gray-700 text-base mb-4">
-                    Type: {allEmployees[0].employeeType}
-                  </p>
-                  <p className="text-gray-700 text-base mb-4">
-                    Gender: {allEmployees[0].gender}
-                  </p>
-                  <span className="text-gray-600 text-sm">
-                    Employee ID: {allEmployees[0].id}
-                  </span>
-                </div>
-              </div>
-            ))}
+            
             {allEmployees.map((eachEmployee) => (
               <div className="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                 <div
