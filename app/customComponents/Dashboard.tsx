@@ -200,9 +200,9 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
           </Popover>
         </div>
       </aside>
-      <div className="flex-1 flex flex-col" style={{ marginLeft: "14rem" }}>
-        <div className="fixed top-0 left-56 right-0 h-14 bg-white dark:bg-black z-40 flex items-center justify-end p-4 shadow-md">
-          <Button variant="ghost" onClick={toggleSidebar} className="lg:hidden">
+      <div className="flex-1 flex flex-col lg:ml-56">
+        <div className="fixed top-0 w-full right-0 h-14 bg-white dark:bg-black z-40 flex items-center justify-end p-4 shadow-md">
+          <Button variant="ghost" onClick={toggleSidebar} className="lg:hidden self-start">
             Menu
           </Button>
           <DropdownMenu>
