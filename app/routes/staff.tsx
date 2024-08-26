@@ -56,7 +56,7 @@ export default function Staff() {
         </div>
 
         <div className="mt-4">
-          <div key={activeTab.category}>{activeTab.component}</div>
+          <div>{activeTab.component}</div>
         </div>
       </div>
     </Dashboard>

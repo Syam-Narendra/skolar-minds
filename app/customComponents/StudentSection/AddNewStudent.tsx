@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import  { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -26,6 +26,7 @@ import {
 } from "~/components/ui/alert-dialog";
 
 import { Loader2 } from "lucide-react";
+import { IClass } from "../ClassSection/AllClasses";
 
 type FormValues = {
   studentName: string;
@@ -86,6 +87,7 @@ const StudentForm: React.FC = () => {
     }
   };
   const [classTeachers, setClassTeachers] = useState<IEmployee[]>([]);
+  const [classes, setClasses] = useState<IClass[]>([]);
 
   const fetchClassTeachers = async () => {
     const userToken = Cookies.get("token");
@@ -99,8 +101,17 @@ const StudentForm: React.FC = () => {
         },
       }
     );
-    console.log(`Class Teachers Data`, data[0].id.toString());
     setClassTeachers(data);
+    fetch("https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-all-classes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Cookies.get("token"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setClasses(data))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -169,17 +180,21 @@ const StudentForm: React.FC = () => {
               <label className="block text-sm font-medium mb-1">
                 Select Class*
               </label>
-              <Input type="text" {...register("class", { required: true })} />
-              {/* <Select {...register("class", { required: true })}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Class" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="null"></SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select> */}
+              <Select {...register("class", { required: true })}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Class" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {classes.map((each) => (
+                      <SelectItem key={each.id} value={each.id.toString()}>
+                        {each.className} {each.sectionName}
+                      </SelectItem>
+                    ))}
+                    {/* <SelectItem value="null"></SelectItem> */}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
               {errors.class && (
                 <span className="text-red-500 text-sm">
                   This field is required

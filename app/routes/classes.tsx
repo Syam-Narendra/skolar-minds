@@ -1,33 +1,42 @@
-import { Link } from "@remix-run/react";
-import { FaArrowRight } from "react-icons/fa";
+import { useState } from "react";
+import { AllClasses } from "~/customComponents/ClassSection/AllClasses";
+import CreateNewClass from "~/customComponents/ClassSection/CreateNewClass";
 import Dashboard from "~/customComponents/Dashboard";
 
-const employeeCategoryList = [
+const classesList = [
   {
     title: "All Classes",
-    path: "/dashboard/all-employees",
+    component: <AllClasses />,
   },
   {
     title: "Create Class",
-    path: "/dashboard/add-employee",
+    component: <CreateNewClass/>,
   },
 ];
 export default function Classess() {
+  const [activeTab, setActiveTab] = useState(classesList[0]);
   return (
     <Dashboard>
-      <div className="flex flex-wrap justify-around items-center">
-        {employeeCategoryList.map((category, index) => (
-          <Link
-            to={category.path}
-            key={index}
-            className="items-center content-center w-52 h-32 rounded-2xl p-4 m-2"
-          >
-            <h2 className="flex justify-around items-center text-lg text-center font-semibold">
-              {category.title}
-              <FaArrowRight />
-            </h2>
-          </Link>
-        ))}
+      <div className="w-full flex flex-col">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {classesList.map((each) => (
+            <button
+              key={each.title}
+              onClick={() => setActiveTab(each)}
+              className={`py-2 px-4 text-center focus:outline-none ${
+                activeTab.title === each.title
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-100 text-gray-700"
+              }`}
+            >
+              {each.title}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-4">
+          <div>{activeTab.component}</div>
+        </div>
       </div>
     </Dashboard>
   );
