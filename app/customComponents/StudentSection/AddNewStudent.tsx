@@ -102,13 +102,16 @@ const StudentForm: React.FC = () => {
       }
     );
     setClassTeachers(data);
-    fetch("https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-all-classes", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + Cookies.get("token"),
-      },
-    })
+    fetch(
+      "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-all-classes",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + Cookies.get("token"),
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => setClasses(data))
       .catch((err) => console.log(err));
@@ -180,7 +183,7 @@ const StudentForm: React.FC = () => {
               <label className="block text-sm font-medium mb-1">
                 Select Class*
               </label>
-              <Select {...register("class", { required: true })}>
+              <Select onValueChange={(value) => setValue("class", value)}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Class" />
                 </SelectTrigger>
