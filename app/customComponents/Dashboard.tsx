@@ -191,7 +191,11 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
                   </p>
                 </div>
                 <div className="flex justify-end">
-                  <Button onClick={confirmLogout} variant="destructive" className="dark:bg-red-500">
+                  <Button
+                    onClick={confirmLogout}
+                    variant="destructive"
+                    className="dark:bg-red-500"
+                  >
                     Logout
                   </Button>
                 </div>
@@ -202,7 +206,11 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
       </aside>
       <div className="flex-1 flex flex-col lg:ml-56">
         <div className="fixed top-0 w-full right-0 h-14 bg-white dark:bg-black z-40 flex items-center justify-end p-4 shadow-md">
-          <Button variant="ghost" onClick={toggleSidebar} className="lg:hidden self-start">
+          <Button
+            variant="ghost"
+            onClick={toggleSidebar}
+            className="lg:hidden self-start"
+          >
             Menu
           </Button>
           <DropdownMenu>
@@ -259,7 +267,13 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
           />
         </div>
 
-        <div className="mt-16 p-4 overflow-y-auto h-fit">{children}</div>
+        <div
+          className="mt-16 p-4 overflow-y-auto h-fit"
+          onClick={() => setSidebarOpen(false)}
+          // onTouchStart={()=>setSidebarOpen(false)}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
