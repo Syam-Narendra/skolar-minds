@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios, { AxiosError } from "axios";
+import { useLoaderData } from "@remix-run/react";
+import { checkCookie } from "~/server/authentication";
+import { LoaderFunction } from "@remix-run/node";
 interface FormFields {
   name: string;
   email: string;
@@ -16,6 +19,11 @@ interface FormFields {
   password: string;
   confirmPassword: string;
 }
+
+
+export const loader: LoaderFunction = async ({ request }) => {
+  return checkCookie({ request });
+};
 
 const Form = ({
   setShowForm,
@@ -73,6 +81,9 @@ const Form = ({
     { name: "password", label: "Password", type: "password" },
     { name: "confirmPassword", label: "Confirm Password", type: "password" },
   ];
+
+  const loader = useLoaderData();
+
 
   return (
     <div className=" relative bg-[#151515] bg-opacity-30 backdrop-blur-xl p-6 rounded-lg shadow-[0_-4px_10px_rgba(255,255,255,0.1)] w-full max-w-fit">

@@ -1,20 +1,29 @@
+import { LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import Dashboard from "~/customComponents/Dashboard";
 import StudentForm from "~/customComponents/StudentSection/AddNewStudent";
 import { AllStudents } from "~/customComponents/StudentSection/AllStudents";
+import { checkCookie } from "~/server/authentication";
 
 const studentCategoryList = [
   {
     category: "All Students",
-    component: <AllStudents/>,
+    component: <AllStudents />,
   },
   {
     category: "Add Student",
-    component: <StudentForm/>,
+    component: <StudentForm />,
   },
 ];
 
+export const loader: LoaderFunction = async ({ request }) => {
+  return checkCookie({ request });
+};
+
 export default function Students() {
+  const loader = useLoaderData();
+
   const [activeTab, setActiveTab] = useState(studentCategoryList[0]);
 
   return (

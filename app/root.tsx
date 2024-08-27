@@ -9,6 +9,7 @@ import {
 import type { LinksFunction } from "@remix-run/node";
 import styles from "./tailwind.css?url";
 import { ThemeProvider } from "~/components/theme-provider";
+import ErrorPage from "./customComponents/error";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
@@ -41,3 +42,5 @@ export default function App() {
     </>
   );
 }
+
+export const ErrorBoundary = () => <ErrorPage />;

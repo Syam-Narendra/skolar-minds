@@ -78,6 +78,11 @@ const DashboardNavItems = [
     label: "Classes",
   },
   {
+    to: "/subjects",
+    icon: <FcAddressBook className="w-4 h-4" />,
+    label: "Subjects",
+  },
+  {
     to: "/statistcs",
     icon: <FcStatistics className="w-4 h-4" />,
     label: "Statistics",
@@ -269,8 +274,14 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
 
         <div
           className="mt-16 p-4 overflow-y-auto h-fit"
-          onClick={() => setSidebarOpen(false)}
+          onClick={() => {
+            console.log("clicked");
+            setSidebarOpen(false);
+          }}
           // onTouchStart={()=>setSidebarOpen(false)}
+          // onClickCapture={() => {
+          //   setSidebarOpen(false);
+          // }}
         >
           {children}
         </div>

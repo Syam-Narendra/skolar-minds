@@ -1,4 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -22,6 +24,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import Dashboard from "~/customComponents/Dashboard";
+import { checkCookie } from "~/server/authentication";
 const formSchema = z.object({
   username: z.string().min(1, {
     message: "* Required",
@@ -34,7 +37,13 @@ const formSchema = z.object({
   }),
 });
 
+export const loader: LoaderFunction = async ({ request }) => {
+  return checkCookie({ request });
+};
+
 export default function ProfileForm() {
+  const loader = useLoaderData();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

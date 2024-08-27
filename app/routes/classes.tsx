@@ -1,7 +1,10 @@
+import { LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { AllClasses } from "~/customComponents/ClassSection/AllClasses";
 import CreateNewClass from "~/customComponents/ClassSection/CreateNewClass";
 import Dashboard from "~/customComponents/Dashboard";
+import { checkCookie } from "~/server/authentication";
 
 const classesList = [
   {
@@ -13,7 +16,13 @@ const classesList = [
     component: <CreateNewClass/>,
   },
 ];
+
+export const loader: LoaderFunction = async ({ request }) => {
+  return checkCookie({ request });
+};
+
 export default function Classess() {
+  const loader = useLoaderData();
   const [activeTab, setActiveTab] = useState(classesList[0]);
   return (
     <Dashboard>
