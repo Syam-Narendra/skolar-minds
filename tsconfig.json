@@ -5,11 +5,12 @@
     "**/.server/**/*.ts",
     "**/.server/**/*.tsx",
     "**/.client/**/*.ts",
-    "**/.client/**/*.tsx"
-, "app/customComponents/StaffSection/AddEmployee"  ],
+    "**/.client/**/*.tsx",
+    "app/customComponents/StaffSection/AddEmployee"
+  ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "types": ["@remix-run/node", "vite/client"],
+    "types": ["@remix-run/node", "vite/client", "bun-types"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
@@ -24,9 +25,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-        "@/*": [
-          "./src/*"
-        ]
+      "@/*": ["./src/*"]
     },
 
     // Vite takes care of building everything, not tsc.

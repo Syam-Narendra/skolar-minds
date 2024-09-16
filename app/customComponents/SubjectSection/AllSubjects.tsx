@@ -17,7 +17,7 @@ const AllSubjects = () => {
   useEffect(() => {
     const userToken = Cookies.get("token");
     axios
-      .get("https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-all-subjects", {
+      .get(`${process.env.API_URL}/api/get-all-subjects`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + userToken,

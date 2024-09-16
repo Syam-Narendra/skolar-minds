@@ -10,7 +10,7 @@ export interface IClass {
 export function AllClasses() {
   const [classes, setClasses] = useState<IClass[]>([]);
   useEffect(() => {
-    fetch("https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-all-classes", {
+    fetch(`${process.env.API_URL}/api/get-all-classes`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

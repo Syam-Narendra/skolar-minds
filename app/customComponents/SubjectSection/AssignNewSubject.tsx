@@ -57,7 +57,7 @@ const AssignNewSubject: React.FC = () => {
     console.log(formValues);
     try {
       const { data, status } = await axios.post(
-        "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/create-subject",
+        `${process.env.API_URL}/api/create-subject`,
         formValues,
         {
           headers: {
@@ -80,13 +80,13 @@ const AssignNewSubject: React.FC = () => {
 
   const fetchClassesAndSubjects = () => {
     const userToken = Cookies.get("token");
-    const teachers = axios.get("https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-all-employees", {
+    const teachers = axios.get(`${process.env.API_URL}/api/get-all-employees`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + userToken,
       },
     });
-    const classes = axios.get("https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-all-classes", {
+    const classes = axios.get(`${process.env.API_URL}/api/get-all-classes`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + userToken,

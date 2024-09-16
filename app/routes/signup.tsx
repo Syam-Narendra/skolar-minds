@@ -2,8 +2,6 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios, { AxiosError } from "axios";
 import { useLoaderData } from "@remix-run/react";
-import { checkCookie } from "~/server/authentication";
-import { LoaderFunction } from "@remix-run/node";
 interface FormFields {
   name: string;
   email: string;
@@ -19,11 +17,6 @@ interface FormFields {
   password: string;
   confirmPassword: string;
 }
-
-
-export const loader: LoaderFunction = async ({ request }) => {
-  return checkCookie({ request });
-};
 
 const Form = ({
   setShowForm,
@@ -46,7 +39,7 @@ const Form = ({
     } else {
       try {
         const { data, status } = await axios.post(
-          "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/create-account",
+          `${process.env.API_URL}/api/create-account`,
           formData
         );
         if (status === 200) {
@@ -59,6 +52,7 @@ const Form = ({
         }
       } catch (error) {
         const err = error as AxiosError;
+        console.log(err);
         const errorMsg = err.response?.data as { message: string };
         setError(errorMsg.message);
         setLoading(false);
@@ -83,7 +77,6 @@ const Form = ({
   ];
 
   const loader = useLoaderData();
-
 
   return (
     <div className=" relative bg-[#151515] bg-opacity-30 backdrop-blur-xl p-6 rounded-lg shadow-[0_-4px_10px_rgba(255,255,255,0.1)] w-full max-w-fit">

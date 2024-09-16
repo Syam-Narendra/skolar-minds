@@ -40,7 +40,7 @@ const CreateNewClass: React.FC = () => {
     const userToken = Cookies.get("token");
     try {
       const { data, status } = await axios.post(
-        "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/create-class",
+        `${process.env.API_URL}/api/create-class`,
         formValues,
         {
           headers: {

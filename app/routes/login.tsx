@@ -38,7 +38,7 @@ const SigninPage = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/login",
+        `${process.env.API_URL}/api/login`,
         {
           method: "POST",
           headers: {
@@ -51,7 +51,7 @@ const SigninPage = () => {
         message: string;
         token: string;
       };
-      // console.log(result);
+      console.log(result);
       setLoading(false);
       if (response.status === 202) {
         setResponseError({

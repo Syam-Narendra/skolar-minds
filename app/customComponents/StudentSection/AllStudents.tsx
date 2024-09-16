@@ -6,7 +6,7 @@ const loader = async () => {
   const userToken = Cookies.get("token");
   console.log(userToken);
   const { data, status } = await axios.get(
-    "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-all-students",
+    `${process.env.API_URL}/api/get-all-students`,
     {
       headers: {
         "Content-Type": "application/json",

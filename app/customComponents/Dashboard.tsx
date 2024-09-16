@@ -107,7 +107,7 @@ const DashboardNavItems = [
 export default function Dashboard({ children }: { children: React.ReactNode }) {
   const [homeData, setHomeData] = useState({
     name: "",
-    school_name: "",
+    schoolName: "",
     email: "",
   });
   const confirmLogout = () => {
@@ -123,8 +123,9 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
 
   const getHomeData = async () => {
     const userToken = Cookies.get("token");
+    console.log("userToken", userToken);
     const cookieRes = await fetch(
-      "https://skolar-minds-api.proudsea-e117e491.southindia.azurecontainerapps.io/api/get-home-data",
+      `${process.env.API_URL}/api/get-home-data`,
       {
         headers: {
           Authorization: `Bearer ${userToken}`,
@@ -160,7 +161,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
             }}
             width="30"
           />
-          <h1 className="text-lg font-medium">{homeData.school_name}</h1>
+          <h1 className="text-lg font-medium">{homeData.schoolName}</h1>
         </div>
         <nav className="space-y-2">
           {DashboardNavItems.map((item) => (
