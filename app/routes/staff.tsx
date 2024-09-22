@@ -2,7 +2,7 @@ import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Dashboard from "~/customComponents/Dashboard";
 import { checkCookie } from "~/server/authentication";
-import { CombinedForm } from "~/customComponents/StaffSection/AddEmployee/AddEmployee";
+import { CombinedForm } from "~/customComponents/StaffSection/AddEmployee";
 import { AllEmployees } from "~/customComponents/StaffSection/AllEmployees";
 import { AppointmentLetter } from "~/customComponents/StaffSection/AppoinmentLetter";
 import { EmployeeIdCard } from "~/customComponents/StaffSection/EmployeeIdCard";

@@ -70,7 +70,7 @@ const DashboardNavItems = [
   {
     to: "/staff",
     icon: <GiTeacher className="w-4 h-4" />,
-    label: "Staff",
+    label: "Employees",
   },
   {
     to: "/classes",
