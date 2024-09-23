@@ -370,7 +370,7 @@ export const StudentForm: React.FC = () => {
             )}
           </div>
 
-          <div className="flex flex-wrap mx-2 space-y-4">
+          <div className="flex flex-wrap mx-2 space-y-4 w-full">
             <h1 className="text-sm font-bold text-gray-500">
               Personal Information
             </h1>
@@ -510,7 +510,7 @@ export const StudentForm: React.FC = () => {
             />
           </div>
 
-          <div className="flex flex-wrap mx-2 space-y-4">
+          <div className="flex flex-wrap mx-2 space-y-4 w-full">
             <h1 className="text-sm font-bold text-gray-500">
               Father's Details
             </h1>
@@ -547,7 +547,7 @@ export const StudentForm: React.FC = () => {
             />
           </div>
 
-          <div className="flex flex-wrap mx-2 space-y-4">
+          <div className="flex flex-wrap mx-2 space-y-4 w-full">
             <h1 className="text-sm font-bold text-gray-500">
               Mother's Details
             </h1>
@@ -557,7 +557,7 @@ export const StudentForm: React.FC = () => {
             <input
               className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Mother Name"
-              {...register("motherName", { required: true })}
+              {...register("motherName")}
             />
           </div>
           <div className="w-full md:w-1/2 px-2">

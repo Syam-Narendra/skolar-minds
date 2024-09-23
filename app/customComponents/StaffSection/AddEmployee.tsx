@@ -388,7 +388,7 @@ export const CombinedForm = () => {
             )}
           </div>
 
-          <div className="flex flex-wrap mx-2 space-y-4">
+          <div className="flex flex-wrap mx-2 space-y-4 w-full">
             <h1 className="text-sm font-bold text-gray-500">
               Personal Information
             </h1>
@@ -510,7 +510,7 @@ export const CombinedForm = () => {
             />
           </div>
 
-          <div className="flex flex-wrap mx-2 space-y-4">
+          <div className="flex flex-wrap mx-2 space-y-4 w-full">
             <h1 className="text-sm font-bold text-gray-500">
               Documentation & Experience Details:
             </h1>
@@ -590,7 +590,7 @@ export const CombinedForm = () => {
               {...register("previousOrganization")}
             />
           </div>
-          <div className="flex flex-wrap mx-2 space-y-4">
+          <div className="flex flex-wrap mx-2 space-y-4 w-full">
             <h1 className="text-sm font-bold text-gray-500">
               Access and Permissions:
             </h1>
