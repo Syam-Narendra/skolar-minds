@@ -2,7 +2,7 @@ import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import Dashboard from "~/customComponents/Dashboard";
-import StudentForm from "~/customComponents/StudentSection/AddNewStudent";
+import { StudentForm } from "~/customComponents/StudentSection/AddNewStudent";
 import { AllStudents } from "~/customComponents/StudentSection/AllStudents";
 import { checkCookie } from "~/server/authentication";
 
