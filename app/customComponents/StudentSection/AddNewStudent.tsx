@@ -1,6 +1,6 @@
 import { CalendarIcon } from "@radix-ui/react-icons";
 import axios from "axios";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -41,7 +41,6 @@ import { CountryNamesApiObject } from "../StaffSection/countryNamesApi";
 type FormValues = {
   firstName: string;
   lastName: string;
-  studentId: string;
   transportEnrollment: string;
   transportEnrollmentRemarks: string;
   previousInstitution: string;
@@ -93,16 +92,22 @@ export const StudentForm: React.FC = () => {
   const [isloadingButton, setLoading] = useState(false);
   const watchedValues = watch();
   const [date, setDate] = useState<Date>();
+  const [admissionDate, setAdmissionDate] = useState<Date>();
 
   const dailogRef = useRef<HTMLButtonElement>(null);
 
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
+    const randomStudentId = `SCH-${Math.floor(Math.random() * 1000000)}`;
+    const allValues = {
+      studentId: randomStudentId,
+      ...formValues,
+    };
     setLoading(true);
     const userToken = Cookies.get("token");
     console.log(formValues);
     const { data, status } = await axios.post(
       `${process.env.API_URL}/api/create-student`,
-      formValues,
+      allValues,
       {
         headers: {
           "Content-Type": "application/json",
@@ -245,11 +250,9 @@ export const StudentForm: React.FC = () => {
 
           <div className="w-full md:w-1/2 px-2">
             <input
-              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
-              placeholder="Student ID "
-              value="sdkjvkj"
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none cursor-not-allowed"
+              placeholder="Student ID will  be auto generated"
               disabled
-              {...register("studentId")}
             />
           </div>
           <div className="w-full md:w-1/2 px-2">
@@ -303,12 +306,12 @@ export const StudentForm: React.FC = () => {
                   variant={"outline"}
                   className={cn(
                     "w-full justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
+                    !admissionDate && "text-muted-foreground"
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? (
-                    format(date, "PPP")
+                  {admissionDate ? (
+                    format(admissionDate, "PPP")
                   ) : (
                     <span className="text-gray-500">Date of Admission *</span>
                   )}
@@ -317,8 +320,8 @@ export const StudentForm: React.FC = () => {
               <PopoverContent className="w-full p-0" align="start">
                 <Calendar
                   mode="single"
-                  selected={date}
-                  onSelect={setDate}
+                  selected={admissionDate}
+                  onSelect={setAdmissionDate}
                   initialFocus
                 />
               </PopoverContent>
