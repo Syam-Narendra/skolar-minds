@@ -1,4 +1,6 @@
+import { CalendarIcon } from "@radix-ui/react-icons";
 import axios from "axios";
+import { format } from "date-fns";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -26,64 +28,56 @@ import {
 
 import { Loader2 } from "lucide-react";
 
+import { Calendar } from "~/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import { cn } from "~/lib/utils";
 import { IClass } from "../ClassSection/AllClasses";
 import { CountryNamesApiObject } from "../StaffSection/countryNamesApi";
 
 type FormValues = {
-  studentName: string;
-  // picture?: FileList;
-  registrationNo?: string;
+  firstName: string;
+  lastName: string;
+  studentId: string;
+  transportEnrollment: string;
+  transportEnrollmentRemarks: string;
+  previousInstitution: string;
+  annualFee: number;
   admissionDate: string;
-  class: string;
-  classTeacherID: string;
-  classTeacherName?: string;
-  mobile?: string;
-  dob?: string;
   gender?: string;
-  identificationMark?: string;
   bloodGroup?: string;
   caste?: string;
   religion?: string;
-  address?: string;
   fatherName?: string;
-  fatherNationalId?: string;
   fatherMobile?: string;
-  fatherProfession?: string;
+  fatherOccupation: string;
   motherName?: string;
-  motherNationalId?: string;
+  motherOccupation: string;
   motherMobile?: string;
-  motherProfession?: string;
-  employeeName: string;
   mobileNumber: number;
-  employeeType: string;
-  employeeRole: string;
-  employeeDesignation: string;
-  salary: number;
-  parentName: string;
   nationality: string;
+  motherEducation: string;
   idType: string;
-
+  fatherEducation: string;
   email: string;
-  emergencyContactNumber: number;
   pincode: number;
-  userStatus: string;
-  userRole: string;
-  employeeSpecialization: string;
-  employeeSpecializationType: string;
-  idCard: string;
   idCardNumber: number;
-  employeeImage: string;
-  employeeSignature: string;
-  employeeJoiningDateString: string;
-  maritalStatus: string;
-  subjectExpertise: string;
   healthRecords: string;
   communicationAddress: string;
-  educationalQualification: string;
-  workExperience: string;
-  previousOrganization: string;
   govtQuota: string;
   govtQuotaRemarks: string;
+};
+
+const iDCards = {
+  Aadhaar: "Aadhaar Card",
+  PAN: "PAN Card",
+  VoterID: "Voter ID Card",
+  DrivingLicense: "Driving License",
+  Passport: "Passport",
+  RationCard: "Ration Card",
 };
 
 export const StudentForm: React.FC = () => {
@@ -98,6 +92,7 @@ export const StudentForm: React.FC = () => {
   } = useForm<FormValues>();
   const [isloadingButton, setLoading] = useState(false);
   const watchedValues = watch();
+  const [date, setDate] = useState<Date>();
 
   const dailogRef = useRef<HTMLButtonElement>(null);
 
@@ -178,20 +173,112 @@ export const StudentForm: React.FC = () => {
               </SelectContent>
             </Select>
           </div>
+          {watchedValues.govtQuota === "yes" && (
+            <div className="w-full md:w-1/2 px-2">
+              <input
+                disabled={watchedValues.govtQuota !== "yes"}
+                className={`border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none ${
+                  watchedValues.govtQuota !== "yes" && "cursor-not-allowed"
+                }`}
+                placeholder={
+                  watchedValues.govtQuota === "yes"
+                    ? "Remarks for Govt. Quota"
+                    : "🚫"
+                }
+                {...register("govtQuotaRemarks", { required: true })}
+              />
+            </div>
+          )}
 
           <div className="w-full md:w-1/2 px-2">
             <input
-              disabled={watchedValues.govtQuota !== "yes"}
-              className={`border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none ${
-                watchedValues.govtQuota !== "yes" && "cursor-not-allowed"
-              }`}
-              placeholder={
-                watchedValues.govtQuota === "yes"
-                  ? "Remarks for Govt. Quota"
-                  : "🚫"
-              }
-              {...register("govtQuotaRemarks", { required: true })}
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="First Name *"
+              {...register("firstName", {
+                required: "First Name is required",
+              })}
             />
+            {errors.firstName && (
+              <span className="text-red-600">{errors.firstName.message}</span>
+            )}
+          </div>
+          <div className="w-full md:w-1/2 px-2">
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Last Name *"
+              {...register("lastName", {
+                required: "Last Name is required",
+              })}
+            />
+            {errors.lastName && (
+              <span className="text-red-600">{errors.lastName.message}</span>
+            )}
+          </div>
+          <div className="w-full md:w-1/2 px-2">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {date ? (
+                    format(date, "PPP")
+                  ) : (
+                    <span className="text-gray-500">Date of Birth *</span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          <div className="w-full md:w-1/2 px-2">
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Student ID "
+              value="sdkjvkj"
+              disabled
+              {...register("studentId")}
+            />
+          </div>
+          <div className="w-full md:w-1/2 px-2">
+            <Select onValueChange={(value) => setValue("gender", value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Gender *" />
+              </SelectTrigger>
+              <SelectContent {...register("gender", { required: true })}>
+                <SelectGroup>
+                  <SelectItem value="Male">Male</SelectItem>
+                  <SelectItem value="Female">Female</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {errors.gender && (
+              <span className="text-red-600">* Please select Gender</span>
+            )}
+          </div>
+          <div className="w-full md:w-1/2 px-2">
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Mobile Number *"
+              type="number"
+              {...register("mobileNumber", { required: true })}
+            />
+            {errors.mobileNumber && (
+              <span className="text-red-600">* Required</span>
+            )}
           </div>
           <div className="w-full md:w-1/2 px-2">
             <input
@@ -209,57 +296,77 @@ export const StudentForm: React.FC = () => {
               <span className="text-red-600">{errors.email.message}</span>
             )}
           </div>
-
           <div className="w-full md:w-1/2 px-2">
-            <input
-              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
-              placeholder="Salary"
-              type="number"
-              {...register("salary", { required: true })}
-            />
-            {errors.salary && <span className="text-red-600">* Required</span>}
-          </div>
-
-          <div className="w-full md:w-1/2 px-2">
-            <Select onValueChange={(value) => setValue("employeeType", value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Employee Type *" />
-              </SelectTrigger>
-              <SelectContent {...register("employeeType", { required: true })}>
-                <SelectGroup>
-                  <SelectItem value="Full Time">Full Time</SelectItem>
-                  <SelectItem value="Part Time">Part Time</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {errors.employeeType && (
-              <span className="text-red-600">
-                * Please select Employee Type
-              </span>
-            )}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {date ? (
+                    format(date, "PPP")
+                  ) : (
+                    <span className="text-gray-500">Date of Admission *</span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div className="w-full md:w-1/2 px-2">
             <Select
-              onValueChange={(value) => setValue("subjectExpertise", value)}
+              onValueChange={(value) => setValue("transportEnrollment", value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Subject Expertise *" />
+                <SelectValue placeholder="Transport Enrollment *" />
               </SelectTrigger>
               <SelectContent
-                {...register("subjectExpertise", { required: true })}
+                {...register("transportEnrollment", { required: true })}
               >
                 <SelectGroup>
-                  <SelectItem value="Maths">Maths</SelectItem>
-                  <SelectItem value="Physics">Physics</SelectItem>
-                  <SelectItem value="Chemistry">Chemistry</SelectItem>
+                  <SelectItem value="yes">Yes</SelectItem>
+                  <SelectItem value="no">No</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
-            {errors.employeeDesignation && (
-              <span className="text-red-600">
-                * Please select Employee Designation
-              </span>
+          </div>
+          {watchedValues.transportEnrollment === "yes" && (
+            <div className="w-full md:w-1/2 px-2">
+              <input
+                disabled={watchedValues.govtQuota !== "yes"}
+                className={`border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none ${
+                  watchedValues.govtQuota !== "yes" && "cursor-not-allowed"
+                }`}
+                placeholder={
+                  watchedValues.transportEnrollment === "yes"
+                    ? "Remarks for Transport"
+                    : "🚫"
+                }
+                {...register("transportEnrollmentRemarks", { required: true })}
+              />
+            </div>
+          )}
+
+          <div className="w-full md:w-1/2 px-2">
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Annual Fee *"
+              {...register("annualFee", { required: true })}
+            />
+            {errors.annualFee && (
+              <span className="text-red-600">* Required</span>
             )}
           </div>
 
@@ -290,22 +397,6 @@ export const StudentForm: React.FC = () => {
             {errors.bloodGroup && (
               <span className="text-red-600">* Please select Blood Group</span>
             )}
-          </div>
-          <div className="w-full md:w-1/2 px-2">
-            <Select onValueChange={(value) => setValue("maritalStatus", value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Marital Status " />
-              </SelectTrigger>
-              <SelectContent {...register("maritalStatus")}>
-                <SelectGroup>
-                  <SelectItem value="Single">Single</SelectItem>
-                  <SelectItem value="Married">Married</SelectItem>
-                  <SelectItem value="Prefer Not to Say">
-                    Prefer Not to Say
-                  </SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
           </div>
 
           <div className="w-full md:w-1/2 px-2">
@@ -341,25 +432,20 @@ export const StudentForm: React.FC = () => {
           </div>
 
           <div className="w-full md:w-1/2 px-2">
-            <input
-              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
-              placeholder="Parent/Spouse Name"
-              {...register("parentName", { required: true })}
-            />
-            {errors.parentName && (
-              <span className="text-red-600">* Required</span>
-            )}
-          </div>
-          <div className="w-full md:w-1/2 px-2">
-            <input
-              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
-              placeholder="Emergency Contact Number"
-              type="number"
-              {...register("emergencyContactNumber", { required: true })}
-            />
-            {errors.emergencyContactNumber && (
-              <span className="text-red-600">* Required</span>
-            )}
+            <Select onValueChange={(value) => setValue("caste", value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Caste" />
+              </SelectTrigger>
+              <SelectContent {...register("caste")}>
+                <SelectGroup>
+                  <SelectItem value="General">General</SelectItem>
+                  <SelectItem value="OBC">OBC</SelectItem>
+                  <SelectItem value="SC">SC</SelectItem>
+                  <SelectItem value="ST">ST</SelectItem>
+                  <SelectItem value="Minority">Minority</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
           <div className="w-full md:w-1/2 px-2">
             <input
@@ -377,6 +463,7 @@ export const StudentForm: React.FC = () => {
             />
             {errors.pincode && <span className="text-red-600">* Required</span>}
           </div>
+
           <div className="w-full md:w-1/2 px-2">
             <input
               className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
@@ -385,12 +472,25 @@ export const StudentForm: React.FC = () => {
             />
           </div>
 
-          <div className="flex flex-wrap mx-2 space-y-4">
-            <h1 className="text-sm font-bold text-gray-500">
-              Documentation & Experience Details:
-            </h1>
+          <div className="w-full md:w-1/2 px-2">
+            <Select onValueChange={(value) => setValue("idType", value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="ID Card Type *" />
+              </SelectTrigger>
+              <SelectContent {...register("idType", { required: true })}>
+                <SelectGroup>
+                  {Object.values(iDCards).map((each) => (
+                    <SelectItem key={each} value={each}>
+                      {each}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {errors.idType && (
+              <span className="text-red-600">* Please select ID Card Type</span>
+            )}
           </div>
-
           <div className="w-full md:w-1/2 px-2">
             <input
               className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
@@ -403,84 +503,85 @@ export const StudentForm: React.FC = () => {
           </div>
 
           <div className="w-full md:w-1/2 px-2">
-            <Select
-              onValueChange={(value) =>
-                setValue("educationalQualification", value)
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Educational Qualification *" />
-              </SelectTrigger>
-              <SelectContent
-                {...register("educationalQualification", { required: true })}
-              >
-                <SelectGroup>
-                  <SelectItem value="Bachelor Degree">
-                    Bachelor Degree
-                  </SelectItem>
-                  <SelectItem value="Master Degree">Master Degree</SelectItem>
-                  <SelectItem value="Ph.D">Ph.D</SelectItem>
-                  <SelectItem value="Others">Others</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {errors.bloodGroup && (
-              <span className="text-red-600">
-                * Please select Educational Qualification
-              </span>
-            )}
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Previous Institution Name"
+              {...register("previousInstitution")}
+            />
           </div>
 
-          <div className="w-full md:w-1/2 px-2">
-            <input
-              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
-              placeholder="Work Experience"
-              {...register("workExperience")}
-            />
-          </div>
-          <div className="w-full md:w-1/2 px-2">
-            <input
-              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
-              placeholder="Previous Organization"
-              {...register("previousOrganization")}
-            />
-          </div>
           <div className="flex flex-wrap mx-2 space-y-4">
             <h1 className="text-sm font-bold text-gray-500">
-              Access and Permissions:
+              Father's Details
             </h1>
           </div>
 
           <div className="w-full md:w-1/2 px-2">
-            <Select onValueChange={(value) => setValue("userRole", value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="User Role *" />
-              </SelectTrigger>
-              <SelectContent {...register("userRole", { required: true })}>
-                <SelectGroup>
-                  <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="teacher">Teacher</SelectItem>
-                  <SelectItem value="staff">Staff</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {errors.gender && (
-              <span className="text-red-600">* Please select User Role</span>
-            )}
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Father Name"
+              {...register("fatherName")}
+            />
+          </div>
+          <div className="w-full md:w-1/2 px-2">
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Father Occupation"
+              {...register("fatherOccupation")}
+            />
+          </div>
+          <div className="w-full md:w-1/2 px-2">
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Education"
+              {...register("fatherEducation")}
+            />
           </div>
 
           <div className="w-full md:w-1/2 px-2">
-            <Select onValueChange={(value) => setValue("userStatus", value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="User Status " />
-              </SelectTrigger>
-              <SelectContent {...register("userStatus", { required: true })}>
-                <SelectGroup>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="inactive">InActive</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Mobile Number"
+              type="number"
+              {...register("fatherMobile")}
+            />
+          </div>
+
+          <div className="flex flex-wrap mx-2 space-y-4">
+            <h1 className="text-sm font-bold text-gray-500">
+              Mother's Details
+            </h1>
+          </div>
+
+          <div className="w-full md:w-1/2 px-2">
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Mother Name"
+              {...register("motherName", { required: true })}
+            />
+          </div>
+          <div className="w-full md:w-1/2 px-2">
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Mother Occupation"
+              {...register("motherOccupation")}
+            />
+          </div>
+          <div className="w-full md:w-1/2 px-2">
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Education"
+              {...register("motherEducation")}
+            />
+          </div>
+
+          <div className="w-full md:w-1/2 px-2">
+            <input
+              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              placeholder="Mobile Number"
+              type="number"
+              {...register("motherMobile")}
+            />
           </div>
         </div>
 
@@ -489,7 +590,7 @@ export const StudentForm: React.FC = () => {
             {isloadingButton ? (
               <Loader2 className="mr-2 h-4 w-20 animate-spin" />
             ) : (
-              "Add Employee"
+              "Add Student"
             )}
           </Button>
         </div>
@@ -502,9 +603,9 @@ export const StudentForm: React.FC = () => {
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Employee Created Successfully</AlertDialogTitle>
+            <AlertDialogTitle>Student Created Successfully</AlertDialogTitle>
             <AlertDialogDescription>
-              Navigate To All Employees Section To See All Employees
+              Navigate To All Students Section To See All Students
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

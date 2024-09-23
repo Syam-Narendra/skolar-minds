@@ -182,7 +182,7 @@ export const CombinedForm = () => {
         <div className="flex flex-wrap mx-2 space-y-4">
           <div className="w-full md:w-1/2 px-2">
             <input
-              className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+              className="border rounded-md p-2 w-full bg-transparent focus:outline-none"
               placeholder="Employee Name *"
               {...register("employeeName", { required: true })}
             />
