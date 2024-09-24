@@ -19,7 +19,7 @@ const loader = async () => {
 };
 
 export interface IEmployee {
-  id: number;
+  employeeId: string;
   employeeName: string;
   employeeDesignation: string;
   employeeType: string;
@@ -37,11 +37,13 @@ export const AllEmployees = () => {
   return (
     <div className="w-full flex flex-col">
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-        {allEmployees.length !==0 && (
+        {allEmployees.length !== 0 && (
           <>
-            
             {allEmployees.map((eachEmployee) => (
-              <div className="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+              <div
+                key={eachEmployee.employeeId}
+                className="max-w-sm mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
+              >
                 <div
                   className="bg-cover bg-center h-32 p-4"
                   style={{
@@ -62,7 +64,7 @@ export const AllEmployees = () => {
                     Gender: {eachEmployee.gender}
                   </p>
                   <span className="text-gray-600 text-sm">
-                    Employee ID: {eachEmployee.id}
+                    Employee ID: {eachEmployee.employeeId}
                   </span>
                 </div>
               </div>

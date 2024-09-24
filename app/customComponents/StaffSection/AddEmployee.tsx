@@ -57,8 +57,6 @@ type Inputs = {
   idCard: string;
   idCardNumber: number;
   employeeImage: string;
-  employeeSignature: string;
-  employeeJoiningDateString: string;
   maritalStatus: string;
   subjectExpertise: string;
   religion: string;
@@ -98,14 +96,16 @@ export const CombinedForm = () => {
   } = useForm<Inputs>();
   const watchedValues = watch();
   const [date, setDate] = useState<Date>();
+  const [joiningDate, setJoiningDate] = useState<Date>();
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
+    const randomEmployeeId = "EMP-" + Math.floor(Math.random() * 1000);
     setLoadingButton(true);
-    console.log(formData);
+    console.log(`formValues`, formData);
     const userToken = Cookies.get("token");
     const { data, status } = await axios.post(
       `${process.env.API_URL}/api/create-employee`,
-      formData,
+      { employeeId: randomEmployeeId, ...formData },
       {
         headers: {
           "Content-Type": "application/json",
@@ -270,12 +270,12 @@ export const CombinedForm = () => {
                   variant={"outline"}
                   className={cn(
                     "w-full justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
+                    !joiningDate && "text-muted-foreground"
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? (
-                    format(date, "PPP")
+                  {joiningDate ? (
+                    format(joiningDate, "PPP")
                   ) : (
                     <span className="text-gray-500">Joining Date *</span>
                   )}
@@ -284,8 +284,8 @@ export const CombinedForm = () => {
               <PopoverContent className="w-full p-0" align="start">
                 <Calendar
                   mode="single"
-                  selected={date}
-                  onSelect={setDate}
+                  selected={joiningDate}
+                  onSelect={setJoiningDate}
                   initialFocus
                 />
               </PopoverContent>
