@@ -10,6 +10,7 @@ import type { LinksFunction } from "@remix-run/node";
 import styles from "./tailwind.css?url";
 import { ThemeProvider } from "~/components/theme-provider";
 import ErrorPage from "./customComponents/error";
+import Dashboard from "./customComponents/Dashboard";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
@@ -38,7 +39,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <>
-      <Outlet />
+      <Dashboard />
+      <div className="lg:ml-56">
+        <Outlet />
+      </div>
     </>
   );
 }
