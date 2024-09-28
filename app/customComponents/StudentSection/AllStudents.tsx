@@ -29,6 +29,7 @@ export interface IStudent {
 
 export const AllStudents = () => {
   const [allStudents, setAllStudents] = useState<IStudent[]>([]);
+  console.log(`inital length`, allStudents.length);
 
   useEffect(() => {
     loader().then((data) => {
