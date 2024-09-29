@@ -37,16 +37,13 @@ const SigninPage = () => {
     setResponseError({ colour: "", message: "" });
     setLoading(true);
     try {
-      const response = await fetch(
-        `${process.env.API_URL}/api/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(`/api/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
       const result = (await response.json()) as {
         message: string;
         token: string;
@@ -58,7 +55,11 @@ const SigninPage = () => {
           colour: "text-yellow-500",
           message: result.message,
         });
-      } else if (response.status === 404 || response.status === 401 || response.status === 400) {
+      } else if (
+        response.status === 404 ||
+        response.status === 401 ||
+        response.status === 400
+      ) {
         setResponseError({
           colour: "text-red-500",
           message: result.message,
@@ -140,7 +141,6 @@ const SigninPage = () => {
               id="loginPassword"
               {...register("loginPassword", {
                 required: "Password is required",
-                
               })}
               type="password"
               className="p-2 rounded-lg bg-transparent border-2 border-[#70707B] text-white focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:border-transparent"

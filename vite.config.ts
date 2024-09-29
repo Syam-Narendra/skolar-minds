@@ -18,5 +18,15 @@ export default defineConfig(({ mode }) => {
         "@": path.resolve(__dirname, "./app"),
       },
     },
+    server:{
+      proxy:{
+        "/api": {
+          target: "http://localhost:3000",
+          changeOrigin: true,
+          secure: false,
+        },
+      }
+    }
+    
   };
 });
