@@ -97,6 +97,8 @@ export const CombinedForm = () => {
   const watchedValues = watch();
   const [date, setDate] = useState<Date>();
   const [joiningDate, setJoiningDate] = useState<Date>();
+  const [addEmpRole, setAddEmpRole] = useState("");
+  const [isEmpRoleLoading, setIsEmpRoleLoading] = useState(false);
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     const randomEmployeeId = "EMP-" + Math.floor(Math.random() * 1000);
@@ -166,6 +168,23 @@ export const CombinedForm = () => {
       default:
         return null;
     }
+  };
+
+  const addEmployeeRole = async () => {
+    setIsEmpRoleLoading(true);
+    const res = await fetch(`${process.env.API_URL}/api/create-employee-role`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + Cookies.get("token"),
+      },
+      body: JSON.stringify({
+        roleName: addEmpRole,
+      }),
+    });
+    const data = await res.json();
+    setAddEmpRole("");
+    alert(data.message);
   };
 
   return (
@@ -320,7 +339,7 @@ export const CombinedForm = () => {
             )}
           </div>
 
-          <div className="w-full md:w-1/2 px-2">
+          <div className="w-full md:w-1/2 px-2 flex items-center space-x-2">
             <Select onValueChange={(value) => setValue("employeeRole", value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Employee Role" />
@@ -335,6 +354,31 @@ export const CombinedForm = () => {
                 </SelectGroup>
               </SelectContent>
             </Select>
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button>+</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Add Employee Role</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    <input
+                      className="border border-gray- rounded-md p-2 w-full bg-transparent focus:outline-none"
+                      placeholder="* Employee Role"
+                      onChange={(e) => setAddEmpRole(e.target.value)}
+                    />
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <Button onClick={addEmployeeRole}>
+                    {isEmpRoleLoading ? <Loader2  /> : "Add"}
+                  </Button>
+                  <AlertDialogCancel className="hidden"></AlertDialogCancel>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+
             {errors.employeeRole && (
               <span className="text-red-600">
                 * Please select Employee Role
