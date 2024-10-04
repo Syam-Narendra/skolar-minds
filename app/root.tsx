@@ -4,6 +4,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation
 } from "@remix-run/react";
 
 import type { LinksFunction } from "@remix-run/node";
@@ -37,10 +38,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const location = useLocation();
+  const hideDashboardRoutes = ["/login", "/signup"];
+  const containerClassName = hideDashboardRoutes.includes(location.pathname)
+    ? "lg:ml-0"
+    : "lg:ml-56";
+
   return (
     <>
-      <Dashboard />
-      <div className="lg:ml-56">
+      {!hideDashboardRoutes.includes(location.pathname) && <Dashboard />}
+      <div className={containerClassName}>
         <Outlet />
       </div>
     </>
