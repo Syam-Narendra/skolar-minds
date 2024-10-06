@@ -1,9 +1,9 @@
 import { LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { checkCookie } from "~/server/authentication";
+import { checkSession } from "~/server/sessions";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return checkCookie({ request });
+  return await checkSession(request);
 };
 const Stats = () => {
   const loader = useLoaderData();

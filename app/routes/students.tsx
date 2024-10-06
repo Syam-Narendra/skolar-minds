@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { StudentForm } from "~/customComponents/StudentSection/AddNewStudent";
 import { AllStudents } from "~/customComponents/StudentSection/AllStudents";
-import { checkCookie } from "~/server/authentication";
+import { checkSession } from "~/server/sessions";
 
 const studentCategoryList = [
   {
@@ -17,7 +17,7 @@ const studentCategoryList = [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return checkCookie({ request });
+  return await checkSession(request);
 };
 
 export default function Students() {

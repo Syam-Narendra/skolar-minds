@@ -1,3 +1,5 @@
+import { LoaderFunction, redirect } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLoaderData, useNavigate } from "@remix-run/react";
@@ -6,23 +8,30 @@ import { LoaderFunction, redirect } from "@remix-run/node";
 import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
 
+import { commitSession, getSession } from "~/server/sessions";
 
+export const action = async ({ request }: { request: Request }) => {
+  const token = await request.json();
+  const session = await getSession(request.headers.get("Cookie"));
+  session.set("token", token);
+
+  return redirect("/", {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
+};
 export const loader: LoaderFunction = async ({ request }) => {
-  const userToken = request.headers.get("Cookie");
-  if (userToken) {
-    const cookies = new URLSearchParams(userToken);
-    const myCookie = cookies.get("token");
-    // console.log("myCookie", myCookie);
-    if (myCookie !== undefined) {
-      return redirect("/");
-    }
+  const session = await getSession(request.headers.get("Cookie"));
+  if (session.has("token")) {
+    return redirect("/");
   }
   return null;
 };
 
 const SigninPage = () => {
   const loader = useLoaderData();
-  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -69,8 +78,17 @@ const SigninPage = () => {
           message: result.message,
         });
       } else if (response.status === 200) {
-        Cookies.set("token", result.token, { expires: 1 });
-        navigate("/", { replace: true });
+        // Cookies.set("token", result.token, { expires: 1 });
+        // navigate("/", { replace: true });
+        await fetch("/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: result.token,
+          }),
+        });
       }
     } catch (error) {
       setLoading(false);
@@ -112,7 +130,8 @@ const SigninPage = () => {
           Sign in to Skolar Minds
         </h2>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          method="POST"
+          action="/login"
           className="grid grid-cols-1 gap-3 pt-5 pb-5"
           onChange={() => setResponseError({ colour: "", message: "" })}
         >
@@ -194,7 +213,7 @@ const SigninPage = () => {
               <div className="loader"></div>
             ) : (
               <button
-                type="submit"
+                onClick={handleSubmit(onSubmit)}
                 className="w-full p-2 bg-[#1877F2] text-white rounded mt-3 transition duration-200"
               >
                 Sign In
