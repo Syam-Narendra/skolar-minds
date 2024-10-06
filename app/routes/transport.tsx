@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { checkCookie } from "~/server/authentication";
+import { checkSession } from "~/server/sessions";
 const formSchema = z.object({
   username: z.string().min(1, {
     message: "* Required",
@@ -37,7 +37,7 @@ const formSchema = z.object({
 });
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return checkCookie({ request });
+  return await checkSession(request);
 };
 
 export default function ProfileForm() {

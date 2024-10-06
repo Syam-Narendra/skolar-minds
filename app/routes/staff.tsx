@@ -4,9 +4,9 @@ import { CombinedForm } from "~/customComponents/StaffSection/AddEmployee";
 import { AllEmployees } from "~/customComponents/StaffSection/AllEmployees";
 import { AppointmentLetter } from "~/customComponents/StaffSection/AppoinmentLetter";
 import { EmployeeIdCard } from "~/customComponents/StaffSection/EmployeeIdCard";
-import { checkCookie } from "~/server/authentication";
 
 import { useState } from "react";
+import { checkSession } from "~/server/sessions";
 
 const employeeCategoryList = [
   {
@@ -28,7 +28,7 @@ const employeeCategoryList = [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return checkCookie({ request });
+  return await checkSession(request);
 };
 
 export default function Staff() {

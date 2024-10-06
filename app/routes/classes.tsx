@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { AllClasses } from "~/customComponents/ClassSection/AllClasses";
 import CreateNewClass from "~/customComponents/ClassSection/CreateNewClass";
-import { checkCookie } from "~/server/authentication";
+import { checkSession } from "~/server/sessions";
 
 const classesList = [
   {
@@ -17,7 +17,7 @@ const classesList = [
 ];
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return checkCookie({ request });
+  return await checkSession(request);
 };
 
 export default function Classess() {
