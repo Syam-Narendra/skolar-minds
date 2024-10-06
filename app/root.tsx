@@ -4,14 +4,16 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLocation
+  useLocation,
+  useNavigation,
 } from "@remix-run/react";
 
 import type { LinksFunction } from "@remix-run/node";
-import styles from "./tailwind.css?url";
 import { ThemeProvider } from "~/components/theme-provider";
-import ErrorPage from "./customComponents/error";
 import Dashboard from "./customComponents/Dashboard";
+import ErrorPage from "./customComponents/error";
+import styles from "./tailwind.css?url";
+import LoadingPage from "./customComponents/LoadingPage";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
@@ -39,6 +41,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const location = useLocation();
+  const navigation = useNavigation();
   const hideDashboardRoutes = ["/login", "/signup"];
   const containerClassName = hideDashboardRoutes.includes(location.pathname)
     ? "lg:ml-0"
@@ -48,6 +51,9 @@ export default function App() {
     <>
       {!hideDashboardRoutes.includes(location.pathname) && <Dashboard />}
       <div className={containerClassName}>
+        {navigation.state === "loading" && (
+          <LoadingPage/>
+        )}
         <Outlet />
       </div>
     </>

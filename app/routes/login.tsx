@@ -2,11 +2,7 @@ import { LoaderFunction, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useLoaderData, useNavigate } from "@remix-run/react";
-import Cookies from "js-cookie";
-import { LoaderFunction, redirect } from "@remix-run/node";
-import { LuEye } from "react-icons/lu";
-import { LuEyeOff } from "react-icons/lu";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 
 import { commitSession, getSession } from "~/server/sessions";
 
@@ -42,7 +38,7 @@ const SigninPage = () => {
     message: string;
   }>({ colour: "", message: "" });
   const [isLoading, setLoading] = useState(false);
-  const [isPasswordVisible, setPasswordVisible] = useState(false)
+  const [isPasswordVisible, setPasswordVisible] = useState(false);
   const onSubmit: SubmitHandler<{
     loginEmail: string;
     loginPassword: string;
@@ -61,7 +57,7 @@ const SigninPage = () => {
         message: string;
         token: string;
       };
-      console.log(result);
+
       setLoading(false);
       if (response.status === 202) {
         setResponseError({
@@ -78,8 +74,7 @@ const SigninPage = () => {
           message: result.message,
         });
       } else if (response.status === 200) {
-        // Cookies.set("token", result.token, { expires: 1 });
-        // navigate("/", { replace: true });
+        setLoading(true);
         await fetch("/login", {
           method: "POST",
           headers: {
@@ -89,6 +84,7 @@ const SigninPage = () => {
             token: result.token,
           }),
         });
+        window.location.reload();
       }
     } catch (error) {
       setLoading(false);
@@ -158,25 +154,7 @@ const SigninPage = () => {
               </span>
             )}
           </div>
-          {/* <div className="flex flex-col">
-            <label className="text-white mb-1" htmlFor="loginPassword">
-              Password
-            </label>
-            <input
-              placeholder="Enter your password"
-              id="loginPassword"
-              {...register("loginPassword", {
-                required: "Password is required",
-              })}
-              type={isPasswordVisible ? "text" : "password"} 
-              className="p-2 rounded-lg bg-transparent border-2 border-[#70707B] text-white focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:border-transparent"
-            />
-            {errors.loginPassword && (
-              <span className="text-red-500 text-sm mt-2">
-                {errors.loginPassword?.message}
-              </span>
-            )}
-          </div> */}
+
           <div className="flex flex-col relative">
             <label className="text-white mb-1" htmlFor="loginPassword">
               Password
@@ -187,18 +165,14 @@ const SigninPage = () => {
               {...register("loginPassword", {
                 required: "Password is required",
               })}
-              type={isPasswordVisible ? "text" : "password"} // Toggle password visibility
+              type={isPasswordVisible ? "text" : "password"}
               className="p-2 rounded-lg bg-transparent border-2 border-[#70707B] text-white focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:border-transparent"
             />
             <span
               onClick={togglePasswordVisibility}
               className="absolute right-3 top-10 cursor-pointer text-[#70707B]"
             >
-              {isPasswordVisible ? (
-                <LuEyeOff size={20} />
-              ) : (
-                <LuEye size={20} />
-              )}
+              {isPasswordVisible ? <LuEyeOff size={20} /> : <LuEye size={20} />}
             </span>
             {errors.loginPassword && (
               <span className="text-red-500 text-sm mt-2">
