@@ -2,6 +2,9 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios, { AxiosError } from "axios";
 import { useLoaderData } from "@remix-run/react";
+import { LuEye } from "react-icons/lu";
+import { LuEyeOff } from "react-icons/lu";
+
 interface FormFields {
   name: string;
   email: string;
@@ -25,6 +28,8 @@ const Form = ({
 }) => {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
   const {
     register,
     handleSubmit,
@@ -92,7 +97,7 @@ const Form = ({
         className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-5 pb-5"
       >
         {formFields.map((field) => (
-          <div key={field.name} className="flex flex-col">
+          <div key={field.name} className={`flex flex-col ${field.type === "password" ? "relative" : ""}`}>
             <label htmlFor={field.name} className="text-white">
               {field.label}
             </label>
@@ -102,9 +107,19 @@ const Form = ({
               {...register(field.name as keyof FormFields, {
                 required: `${field.label} is required`,
               })}
-              type={field.type}
+              type={field.type === "password" ? (isPasswordVisible ? "text" : "password") : field.type}
               className={`p-2 rounded-lg bg-transparent border-2  border-[#70707B] text-white focus:outline-none focus:ring-2 focus:ring-[#1877F2] focus:border-transparent`}
             />
+            {(field.type === "password") && <span
+              onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+              className="absolute right-3 top-9 cursor-pointer text-[#70707B]"
+            >
+              {isPasswordVisible ? (
+                <LuEyeOff size={18} />
+              ) : (
+                <LuEye size={18} />
+              )}
+            </span>}
             {errors[field.name as keyof FormFields] ? (
               <span className="text-red-500 text-sm mt-2">
                 {errors[field.name as keyof FormFields]?.message?.toString()}
