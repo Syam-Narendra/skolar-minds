@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction, Session } from "@remix-run/node";
 import { Form, Link, useLocation } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import {
@@ -49,13 +49,6 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: "Skolar Minds" },
-    { name: "description", content: "Skolar Minds" },
-  ];
-};
-
 const DashboardNavItems = [
   {
     to: "/",
@@ -104,38 +97,13 @@ const DashboardNavItems = [
   },
 ];
 
-
-export default function Dashboard() {
-  const [homeData, setHomeData] = useState({
-    name: "",
-    schoolName: "",
-    email: "",
-  });
-
-  
-
+export default function Dashboard({ schoolName }: { schoolName: string }) {
   const { setTheme, theme } = useTheme();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
-
-  const getHomeData = async () => {
-    const userToken = Cookies.get("token");
-    console.log("userToken", userToken);
-    const cookieRes = await fetch(`${process.env.API_URL}/api/get-home-data`, {
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    });
-    const data = await cookieRes.json();
-    setHomeData(data);
-  };
-
-  useEffect(() => {
-    getHomeData();
-  }, []);
 
   const activeTab = useLocation().pathname;
 
@@ -157,7 +125,7 @@ export default function Dashboard() {
             }}
             width="30"
           />
-          <h1 className="text-lg font-medium">{homeData.schoolName}</h1>
+          <h1 className="text-lg font-medium">{schoolName}</h1>
         </div>
         <nav className="space-y-2">
           {DashboardNavItems.map((item) => (
@@ -194,13 +162,13 @@ export default function Dashboard() {
                 </div>
                 <div className="flex justify-end">
                   <Form method="post" action="/logout">
-                  <Button
-                    type="submit"
-                    variant="destructive"
-                    className="dark:bg-red-500"
-                  >
-                    Logout
-                  </Button>
+                    <Button
+                      type="submit"
+                      variant="destructive"
+                      className="dark:bg-red-500"
+                    >
+                      Logout
+                    </Button>
                   </Form>
                 </div>
               </div>

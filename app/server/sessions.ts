@@ -19,7 +19,7 @@ export const { getSession, commitSession, destroySession } =
 export const checkSession = async (request: Request) => {
   const session = await getSession(request.headers.get("Cookie"));
   if (session.has("token")) {
-    return null;
+    return session;
   }
   return redirect("/login");
 };

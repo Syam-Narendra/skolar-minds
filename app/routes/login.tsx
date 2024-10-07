@@ -7,9 +7,10 @@ import { LuEye, LuEyeOff } from "react-icons/lu";
 import { commitSession, getSession } from "~/server/sessions";
 
 export const action = async ({ request }: { request: Request }) => {
-  const token = await request.json();
+  const body = await request.json();
+  // console.log("token", uid);
   const session = await getSession(request.headers.get("Cookie"));
-  session.set("token", token);
+  session.set("token", body.token);
 
   return redirect("/", {
     headers: {
@@ -19,6 +20,7 @@ export const action = async ({ request }: { request: Request }) => {
 };
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
+
   if (session.has("token")) {
     return redirect("/");
   }
@@ -75,6 +77,7 @@ const SigninPage = () => {
         });
       } else if (response.status === 200) {
         setLoading(true);
+
         await fetch("/login", {
           method: "POST",
           headers: {

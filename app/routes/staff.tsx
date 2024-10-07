@@ -1,4 +1,4 @@
-import { LoaderFunction } from "@remix-run/node";
+import { LoaderFunction, Session } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { CombinedForm } from "~/customComponents/StaffSection/AddEmployee";
 import { AllEmployees } from "~/customComponents/StaffSection/AllEmployees";
@@ -8,31 +8,31 @@ import { EmployeeIdCard } from "~/customComponents/StaffSection/EmployeeIdCard";
 import { useState } from "react";
 import { checkSession } from "~/server/sessions";
 
-const employeeCategoryList = [
-  {
-    category: "All Employees",
-    component: <AllEmployees />,
-  },
-  {
-    category: "Add Employee",
-    component: <CombinedForm />,
-  },
-  {
-    category: "Employee ID Card",
-    component: <EmployeeIdCard />,
-  },
-  {
-    category: "Appointment Letter",
-    component: <AppointmentLetter />,
-  },
-];
-
 export const loader: LoaderFunction = async ({ request }) => {
-  return await checkSession(request);
+  const session = (await checkSession(request)) as Session;
+  return session;
 };
 
 export default function Staff() {
-  const loaderData = useLoaderData<typeof loader>();
+  const session = useLoaderData<typeof loader>();
+  const employeeCategoryList = [
+    {
+      category: "All Employees",
+      component: <AllEmployees session={session} />,
+    },
+    {
+      category: "Add Employee",
+      component: <CombinedForm session={session} />,
+    },
+    {
+      category: "Employee ID Card",
+      component: <EmployeeIdCard />,
+    },
+    {
+      category: "Appointment Letter",
+      component: <AppointmentLetter />,
+    },
+  ];
   const [activeTab, setActiveTab] = useState(employeeCategoryList[0]);
 
   return (

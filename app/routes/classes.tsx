@@ -1,27 +1,32 @@
-import { LoaderFunction } from "@remix-run/node";
+import {
+  LoaderFunction,
+  Session,
+  SessionData,
+  TypedResponse,
+} from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
-import { AllClasses } from "~/customComponents/ClassSection/AllClasses";
+import { AllClasses, IClass } from "~/customComponents/ClassSection/AllClasses";
 import CreateNewClass from "~/customComponents/ClassSection/CreateNewClass";
 import { checkSession } from "~/server/sessions";
 
-const classesList = [
-  {
-    title: "All Classes",
-    component: <AllClasses />,
-  },
-  {
-    title: "Create Class",
-    component: <CreateNewClass />,
-  },
-];
-
 export const loader: LoaderFunction = async ({ request }) => {
-  return await checkSession(request);
+  const session = (await checkSession(request)) as Session;
+  return session;
 };
 
 export default function Classess() {
-  const loader = useLoaderData();
+  const session = useLoaderData<{ session: Session }>();
+  const classesList = [
+    {
+      title: "All Classes",
+      component: <AllClasses session={session} />,
+    },
+    {
+      title: "Create Class",
+      component: <CreateNewClass session={session} />,
+    },
+  ];
   const [activeTab, setActiveTab] = useState(classesList[0]);
   return (
     <div className="w-full flex flex-col">

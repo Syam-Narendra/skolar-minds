@@ -17,13 +17,14 @@ import {
 } from "~/components/ui/alert-dialog";
 
 import { Loader2 } from "lucide-react";
+import { Session } from "@remix-run/node";
 
 type FormValues = {
   className: string;
   sectionName: string;
 };
 
-const CreateNewClass: React.FC = () => {
+const CreateNewClass = ({ session }: { session: any }) => {
   const [error, setError] = useState("");
   const {
     register,
@@ -37,7 +38,7 @@ const CreateNewClass: React.FC = () => {
 
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
     setLoading(true);
-    const userToken = Cookies.get("token");
+    const userToken = session.data.token;
     try {
       const { data, status } = await axios.post(
         `${process.env.API_URL}/api/create-class`,

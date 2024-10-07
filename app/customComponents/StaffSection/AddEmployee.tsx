@@ -35,6 +35,7 @@ import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { cn } from "~/lib/utils";
 import { CountryNamesApiObject } from "./countryNamesApi";
+import { Session } from "@remix-run/node";
 type Inputs = {
   employeeName: string;
   mobileNumber: number;
@@ -82,7 +83,7 @@ const iDCards = {
   RationCard: "Ration Card",
 };
 
-export const CombinedForm = () => {
+export const CombinedForm = ({ session }: { session: Session }) => {
   const [isloadingButton, setLoadingButton] = useState(false);
   const dailogRef = useRef<HTMLButtonElement>(null);
   const {
@@ -111,7 +112,7 @@ export const CombinedForm = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + userToken,
+          Authorization: "Bearer " + session.data.token,
         },
       }
     );
@@ -372,7 +373,7 @@ export const CombinedForm = () => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <Button onClick={addEmployeeRole}>
-                    {isEmpRoleLoading ? <Loader2  /> : "Add"}
+                    {isEmpRoleLoading ? <Loader2 /> : "Add"}
                   </Button>
                   <AlertDialogCancel className="hidden"></AlertDialogCancel>
                 </AlertDialogFooter>

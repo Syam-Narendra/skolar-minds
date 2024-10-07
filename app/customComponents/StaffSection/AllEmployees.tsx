@@ -1,3 +1,4 @@
+import { Session } from "@remix-run/node";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
@@ -26,18 +27,29 @@ export interface IEmployee {
   gender: string;
 }
 
-export const AllEmployees = () => {
+export const AllEmployees = ({ session }: { session: Session }) => {
   const [allEmployees, setAllEmployees] = useState<IEmployee[]>([]);
+  const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    loader().then((data) => {
-      setAllEmployees(data);
-    });
+    fetch(`${process.env.API_URL}/api/get-all-employees`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + session.data.token,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setAllEmployees(data);
+        setLoading(false);
+      });
   }, []);
-  console.log(allEmployees);
+  // console.log(allEmployees);
   return (
     <div className="w-full flex flex-col">
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-        {allEmployees.length !== 0 && (
+        {isLoading ? (
+          <h1>Loading....</h1>
+        ) : (
           <>
             {allEmployees.map((eachEmployee) => (
               <div
