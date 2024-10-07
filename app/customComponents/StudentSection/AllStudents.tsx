@@ -1,3 +1,4 @@
+import { Session } from "@remix-run/node";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { Loader2 } from "lucide-react";
@@ -27,22 +28,28 @@ export interface IStudent {
   fatherName: string;
 }
 
-export const AllStudents = () => {
+export const AllStudents = ({ session }: { session: Session }) => {
   const [allStudents, setAllStudents] = useState<IStudent[]>([]);
-  console.log(`inital length`, allStudents.length);
-
+  const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    loader().then((data) => {
-      setAllStudents(data);
-    });
+    const date = Date.now();
+    fetch(`${process.env.API_URL}/api/get-all-students`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + session.data.token,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(Date.now() - date);
+        setAllStudents(data);
+        setLoading(false);
+      });
   }, []);
   return (
     <div className="w-full flex flex-col">
-      {allStudents.length === 0 ? (
-        <div>
-          <p>Loading All Students Data...</p>
-          <Loader2 className="animate-spin" />
-        </div>
+      {isLoading ? (
+        <h1>Loading...</h1>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {allStudents.map((eachStudent) => (

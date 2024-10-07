@@ -1,6 +1,6 @@
 import { CalendarIcon } from "@radix-ui/react-icons";
 import axios from "axios";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -28,6 +28,7 @@ import {
 
 import { Loader2 } from "lucide-react";
 
+import { Session } from "@remix-run/node";
 import { Calendar } from "~/components/ui/calendar";
 import {
   Popover,
@@ -79,7 +80,7 @@ const iDCards = {
   RationCard: "Ration Card",
 };
 
-export const StudentForm: React.FC = () => {
+export const StudentForm = ({ session }: { session: Session }) => {
   const {
     register,
     handleSubmit,
@@ -111,7 +112,7 @@ export const StudentForm: React.FC = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + userToken,
+          Authorization: "Bearer " + session.data.token,
         },
       }
     );
@@ -125,8 +126,8 @@ export const StudentForm: React.FC = () => {
   const [classes, setClasses] = useState<IClass[]>([]);
 
   const fetchClassTeachers = async () => {
-    const userToken = Cookies.get("token");
-    console.log(userToken);
+    const userToken = session.data.token;
+    // console.log(userToken);
     const { data, status } = await axios.get(
       `${process.env.API_URL}/api/get-all-employees`,
       {
@@ -141,7 +142,7 @@ export const StudentForm: React.FC = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + Cookies.get("token"),
+        Authorization: "Bearer " + userToken,
       },
     })
       .then((res) => res.json())

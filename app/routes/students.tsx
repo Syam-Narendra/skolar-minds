@@ -1,27 +1,29 @@
-import { LoaderFunction } from "@remix-run/node";
+import { LoaderFunction, Session } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { StudentForm } from "~/customComponents/StudentSection/AddNewStudent";
 import { AllStudents } from "~/customComponents/StudentSection/AllStudents";
 import { checkSession } from "~/server/sessions";
 
-const studentCategoryList = [
-  {
-    category: "All Students",
-    component: <AllStudents />,
-  },
-  {
-    category: "Add Student",
-    component: <StudentForm />,
-  },
-];
+
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return await checkSession(request);
+  const session = await checkSession(request);
+  return session;
 };
 
 export default function Students() {
-  const loader = useLoaderData();
+  const session = useLoaderData() as Session;
+  const studentCategoryList = [
+    {
+      category: "All Students",
+      component: <AllStudents session={session} />,
+    },
+    {
+      category: "Add Student",
+      component: <StudentForm session={session} />,
+    },
+  ];
 
   const [activeTab, setActiveTab] = useState(studentCategoryList[0]);
 
